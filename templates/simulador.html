@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Sísmico | WOOGY Blog</title>
+
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- HEADER igual al resto del sitio -->
+    <header class="header">
+        <nav class="navbar">
+            <span class="logo">WOOGY</span>
+            <div class="menu">
+                <a href="home.html">Mi Blog</a>
+                <a href="hechos_historicos.html">Hechos Históricos</a>
+                <a href="educ_sis.html">Educación Sísmica</a>
+                <a href="material_de_apoyo.html">Material de Apoyo</a>
+            </div>
+            <div class="social-icons">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-github"></i>
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content-wrapper">
+
+        <!-- TÍTULO -->
+        <section class="page-title-section">
+            <div class="title-container">
+                <h2>Simulador de Recomendaciones Sísmicas</h2>
+                <p>Ingresa los datos del sismo y recibe una recomendación personalizada basada en protocolos oficiales.</p>
+            </div>
+        </section>
+
+        <!-- CONTENIDO CENTRAL -->
+        <section class="article-section">
+
+            <div class="sim-box" id="sim-box">
+
+                <h3 class="sim-title">Datos del Sismo</h3>
+
+                <form id="sim-form" class="sim-form">
+
+                    <div class="sim-field">
+                        <label class="sim-label">Magnitud del sismo:</label>
+                        <input
+                            type="number"
+                            id="magnitude"
+                            class="sim-input"
+                            min="3"
+                            max="10"
+                            step="0.1"
+                            placeholder="Ej. 7.5">
+                    </div>
+
+                    <div class="sim-field">
+                        <label class="sim-label">Planta en la que te encuentras:</label>
+                        <select id="floor" class="sim-select">
+                            <option value="baja">Planta baja</option>
+                            <option value="media">Piso medio</option>
+                            <option value="alta">Piso alto</option>
+                        </select>
+                    </div>
+
+                    <div class="sim-field">
+                        <label class="sim-label">Tipo de movimiento:</label>
+                        <select id="movement" class="sim-select">
+                            <option value="oscilatorio">Oscilatorio</option>
+                            <option value="trepidatorio">Trepidatorio</option>
+                            <option value="mixto">Mixto</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="all-posts-btn sim-btn" id="sim-submit">
+                        Generar recomendación
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER IDENTICO -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>Acerca del Blog</h3>
+                <p>Un espacio dedicado a la seguridad, la prevención sísmica y la resiliencia comunitaria.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="home.html">Mi Blog</a></li>
+                    <li><a href="documento-prototipico.pdf" target="_blank">Documento Prototípico</a></li>
+                    <li><a href="politica_privacidad.html">Política de Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Atención Ciudadana</h3>
+                <p>Teléfono: 55 1519 1864</p>
+                <p>Emergencias: 55 5683 2222</p>
+                <p>Correo: atencion.ciudadana.sgirpc@cdmx.gob.mx</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>*Derechos Reservados © 2025 UNRC* | Parte del
+                <a class="prototipico-link" href="documento-prototipico.pdf" target="_blank">Proyecto Prototípico</a></p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DEL SIMULADOR -->
+    <script>
+    (function () {
+        const simBox = document.getElementById("sim-box");
+        const originalBoxHTML = simBox.innerHTML;
+
+        // URL de la API Flask (cuando la tengamos lista la cambiamos aquí)
+        const API_URL = "https://woogy-backend.onrender.com/simular"; // TODO: reemplazar con la URL real
+
+        function configurarFormulario() {
+            const btn = document.getElementById("sim-submit");
+            if (!btn) return;
+
+            btn.addEventListener("click", async () => {
+                const magInput = document.getElementById("magnitude");
+                const floorSelect = document.getElementById("floor");
+                const movementSelect = document.getElementById("movement");
+
+                const magnitude = parseFloat(magInput.value);
+                const floor = floorSelect.value;
+                const movement = movementSelect.value;
+
+                if (isNaN(magnitude)) {
+                    alert("Ingresa una magnitud válida (por ejemplo 6.5).");
+                    return;
+                }
+
+                // Estado de "cargando"
+                simBox.innerHTML = `
+                    <h3 class="sim-title">Generando recomendación...</h3>
+                    <div class="sim-loading">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <p class="sim-helper-text">
+                        Analizando la magnitud, la planta y el tipo de movimiento según recomendaciones oficiales.
+                    </p>
+                `;
+
+                try {
+                    // Delay artificial para permitir que se vea la animación
+await new Promise(resolve => setTimeout(resolve, 900));
+
+const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        magnitude: magnitude,
+        floor: floor,
+        movement: movement
+    })
+});
+
+
+if (!response.ok) {
+    throw new Error("Error en la respuesta del servidor");
+}
+
+const data = await response.json();
+const recommendation = data.recomendacion || "No se pudo generar la recomendación.";
+// Si quieres, también podrías usar data.riesgo o data.intervalo para mostrar más info
+
+                    // Mostrar resultado dentro del mismo cuadro
+                    simBox.innerHTML = `
+                        <h3 class="sim-title">Recomendación Sísmica</h3>
+                        <p class="sim-text">
+                            ${recommendation}
+                        </p>
+                        <button type="button" class="all-posts-btn sim-btn-restart">
+                            Nueva simulación
+                        </button>
+                    `;
+
+                    const restartBtn = simBox.querySelector(".sim-btn-restart");
+                    restartBtn.addEventListener("click", () => {
+                        // Restaurar el formulario original
+                        simBox.innerHTML = originalBoxHTML;
+                        configurarFormulario();
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                    simBox.innerHTML = `
+                        <h3 class="sim-title">Ocurrió un problema</h3>
+                        <p class="sim-text">
+                            No fue posible obtener la recomendación. Intenta nuevamente.
+                        </p>
+                        <button type="button" class="all-posts-btn sim-btn-restart">
+                            Volver al simulador
+                        </button>
+                    `;
+
+                    const restartBtn = simBox.querySelector(".sim-btn-restart");
+                    restartBtn.addEventListener("click", () => {
+                        simBox.innerHTML = originalBoxHTML;
+                        configurarFormulario();
+                    });
+                }
+            });
+        }
+
+        // Configuramos la primera vez
+        configurarFormulario();
+    })();
+    </script>
+
+</body>
+</html>

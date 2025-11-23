@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 3: Creación de un Plan Familiar</title>
+
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+
+    <section class="page-title-section">
+        <div class="title-container">
+            <h2>Módulo 3: Creación de un Plan Familiar</h2>
+            <p>Organización, roles y rutas seguras para actuar en familia ante un sismo.</p>
+        </div>
+    </section>
+
+    <section class="article-section">
+        <div class="article-header">
+            <h1 class="article-title">Cómo crear un Plan Familiar de Emergencias</h1>
+            <p class="article-meta">Basado en recomendaciones de Protección Civil, CENAPRED y la Cruz Roja</p>
+        </div>
+
+        <div class="article-body">
+
+            <p class="lead-paragraph">
+                Un Plan Familiar no es algo complicado ni técnico. Es simplemente un acuerdo entre todos los miembros de la familia 
+                para saber qué hacer antes, durante y después de un sismo. La clave es que todas las personas de la casa sepan qué les toca hacer.
+            </p>
+
+            <h2>1. Define un punto de reunión</h2>
+            <p>
+                Este es el lugar donde todos deben encontrarse después de evacuar. Debe ser:
+            </p>
+
+            <ul>
+                <li>Fuera del edificio</li>
+                <li>Lejos de cables, ventanales y postes</li>
+                <li>Fácil de reconocer para todos</li>
+                <li>Seguro para esperar juntos</li>
+            </ul>
+
+            <p>
+                Ejemplo: la banqueta frente a la tienda de la esquina, o el camellón frente a tu casa.
+            </p>
+
+            <h2>2. Designa roles claros</h2>
+            <p>Cuando todos saben qué hacer, el caos disminuye. Los roles pueden ser:</p>
+
+            <ul>
+                <li><strong>Persona que cuida a los niños:</strong> los ayuda a evacuar y los mantiene seguros.</li>
+                <li><strong>Persona que revisa gas y electricidad:</strong> solo si es seguro hacerlo.</li>
+                <li><strong>Persona que apoya a adultos mayores o mascotas.</strong></li>
+                <li><strong>Persona que lleva la mochila de emergencia.</strong></li>
+            </ul>
+
+            <p>
+                El objetivo es evitar que todos intenten hacer lo mismo o que nadie haga lo necesario.
+            </p>
+
+            <h2>3. Identifica rutas de evacuación dentro de tu casa</h2>
+            <p>
+                Cada hogar es diferente, pero la ruta debe cumplir lo siguiente:
+            </p>
+
+            <ul>
+                <li>Libre de objetos que puedan caer o estorbar</li>
+                <li>Iluminada y fácil de recordar</li>
+                <li>Con puertas que abran sin dificultad</li>
+            </ul>
+
+            <p>
+                Evita rutas cercanas a ventanas, espejos o muebles altos que puedan caer.
+            </p>
+
+            <h2>4. Prepara una mochila de emergencia familiar</h2>
+            <p>
+                No necesita ser enorme. Debe contener lo indispensable para las primeras horas después del sismo:
+            </p>
+
+            <ul>
+                <li>Agua</li>
+                <li>Lámpara con baterías</li>
+                <li>Copias de documentos importantes</li>
+                <li>Botiquín básico</li>
+                <li>Radio de pilas</li>
+                <li>Snacks o alimentos no perecederos</li>
+                <li>Pluma o marcador</li>
+                <li>Lista de contactos importantes</li>
+            </ul>
+
+            <p>
+                No necesitas gastar mucho. Es mejor una mochila sencilla que no tener ninguna.
+            </p>
+
+            <h2>5. Considera necesidades especiales</h2>
+            <p>
+                Cada familia tiene situaciones particulares. Algunas necesidades adicionales pueden ser:
+            </p>
+
+            <ul>
+                <li>Medicinas diarias (para personas con tratamientos)</li>
+                <li>Documentos médicos de emergencia</li>
+                <li>Correa y croquetas para mascotas</li>
+                <li>Lentes, cargadores o aparatos indispensables</li>
+            </ul>
+
+            <h2>6. Mantén la comunicación simple y clara</h2>
+            <p>
+                Durante un sismo, las redes pueden saturarse. Por eso, la familia debe tener claro:
+            </p>
+
+            <ul>
+                <li>Qué mensaje enviar (por ejemplo: “Estoy bien, estoy en el punto de reunión”)</li>
+                <li>Quién es el contacto de emergencia fuera de la ciudad</li>
+                <li>Qué hacer si no pueden comunicarse entre ustedes al momento</li>
+            </ul>
+
+            <h2>7. Practica el plan al menos una vez al mes</h2>
+            <p>
+                No tiene que ser algo serio o complicado. Incluso una práctica rápida ayuda a que todos recuerden qué hacer.
+            </p>
+
+            <blockquote>
+                “Un plan familiar no elimina el riesgo, pero sí reduce el caos. Y en una emergencia, menos caos significa más seguridad.”
+            </blockquote>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="finalizarModulo(3)" class="all-posts-btn">
+                    Finalizar Módulo
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+    function finalizarModulo(num) {
+        sessionStorage.setItem("modulo_" + num + "_leido", "true");
+        window.location.href = "educ_sis.html";
+    }
+</script>
+
+
+</body>
+</html>

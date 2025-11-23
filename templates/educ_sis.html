@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educación Sísmica | WOOGY Blog</title>
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <nav class="navbar">
+            <span class="logo">WOOGY</span>
+            <div class="menu">
+                <a href="home.html">Mi Blog</a>
+                <a href="hechos_historicos.html">Hechos Históricos</a>
+                <a href="educ_sis.html" class="active-section">Educación Sísmica</a>
+                <a href="material_de_apoyo.html">Material de Apoyo</a>
+            </div>
+            <div class="social-icons">
+    <!-- Facebook Oficial Protección Civil -->
+    <a href="AQUI_LINK_FACEBOOK_PC" target="_blank">
+        <i class="fa-brands fa-facebook"></i>
+    </a>
+
+    <!-- Tu GitHub -->
+    <a href="AQUI_LINK_GITHUB" target="_blank">
+        <i class="fa-brands fa-github"></i>
+    </a>
+
+    <!-- UNRC (Sitio oficial o su Facebook) -->
+    <a href="AQUI_LINK_UNRC" target="_blank">
+        <i class="fa-solid fa-user"></i>
+    </a>
+</div>
+
+        </nav>
+    </header>
+
+    <main class="content-wrapper">
+
+        <section class="page-title-section">
+            <div class="title-container">
+                <h2>Educación Sísmica</h2>
+                <p>Módulos de aprendizaje esenciales, guías paso a paso y acciones clave para la seguridad ante sismos.</p>
+            </div>
+        </section>
+
+        <section class="section-education">
+
+            <article>
+                <h3 id="modulo-title-1">Módulo 1: Los Primeros 60 Segundos</h3>
+                <p>
+                    En los primeros segundos de un temblor la prioridad es proteger la vida. Este módulo explica con ejemplos claros cómo aplicar 
+                    las tres acciones vitales: <strong>agacharse, cubrirse y sujetarse</strong>, ya sea en casa, en la calle o en el transporte público. 
+                    Incluye consejos sobre lugares seguros en la vivienda, cómo proteger la cabeza y cómo evaluar cuándo es más seguro evacuar.
+                </p>
+                <a class="external-link" href="modulo1_60seg.html">Ver Módulo Completo <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <article>
+                <h3 id="modulo-title-2">Módulo 2: Entendiendo la Alerta Sísmica</h3>
+                <p>
+                    Aquí explicamos qué es el sistema de alerta (SASMEX / sistemas oficiales), cómo funciona el sensor-alarma y qué significan 
+                    los distintos tonos y mensajes. Añadimos ejemplos reales de tiempo de margen promedio y recomendaciones prácticas para actuar 
+                    correctamente cuando suena la alerta.
+                </p>
+                <a class="external-link" href="modulo2_alerta.html">Ver Módulo Completo <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <article>
+                <h3 id="modulo-title-3">Módulo 3: Creación de un Plan Familiar</h3>
+                <p>
+                    Paso a paso para diseñar un plan familiar: puntos de encuentro (local y alternativo), roles (quién apaga la luz, quién revisa a los vecinos), 
+                    rutas de evacuación y cómo mantener la calma. Incluye una lista descargable con lo mínimo que debe contener tu plan familiar.
+                </p>
+                <a class="external-link" href="modulo3_planfamiliar.html">Ver Módulo Completo <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <article>
+                <h3 id="modulo-title-4">Módulo 4: Ejecución de Simulacros</h3>
+                <p>
+                    Cómo organizar simulacros efectivos en casa, escuela o trabajo: frecuencia recomendada, roles, criterios de evaluación y checklists para mejorar 
+                    cada simulacro. También explicamos errores comunes y cómo hacer que el simulacro sea realista pero seguro.
+                </p>
+                <a class="external-link" href="modulo4_simulacros.html">Ver Módulo Completo <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>Acerca del Blog</h3>
+                <p>Un espacio dedicado a la seguridad, la prevención sísmica y la resiliencia comunitaria. Buscamos informar y generar conciencia sobre la vulnerabilidad de nuestras zonas urbanas.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="home.html">Mi Blog</a></li>
+                    <li><a href="documento-prototipico.pdf" target="_blank">Nuestro Documento de Investigación</a></li>
+                    <li><a href="politica_privacidad.html">Política de Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Atención Ciudadana</h3>
+                <p>Teléfono: 55 1519 1864</p>
+                <p>Emergencias: 55 5683 2222</p>
+                <p>Correo: atencion.ciudadana.sgirpc@cdmx.gob.mx</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>*Derechos Reservados © 2025 UNRC* | Este contenido es parte de nuestro <a href="documento-prototipico.pdf" target="_blank" class="prototipico-link">Proyecto Prototípico</a></p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT PARA MARCAR MÓDULOS COMPLETADOS -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        for (let i = 1; i <= 4; i++) {
+            if (sessionStorage.getItem("modulo_" + i + "_leido") === "true") {
+                const title = document.getElementById("modulo-title-" + i);
+                if (title) {
+                    title.innerHTML += " ✔️";
+                    title.classList.add("modulo-completado");
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

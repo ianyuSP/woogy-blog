@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 2: Entendiendo la Alerta Sísmica</title>
+
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+
+    <section class="page-title-section">
+        <div class="title-container">
+            <h2>Módulo 2: Entendiendo la Alerta Sísmica</h2>
+            <p>Cómo funciona, qué significa y cómo reaccionar correctamente.</p>
+        </div>
+    </section>
+
+    <section class="article-section">
+        <div class="article-header">
+            <h1 class="article-title">Guía práctica para entender la Alerta Sísmica</h1>
+            <p class="article-meta">Basado en recomendaciones de Protección Civil, SASMEX y CENAPRED</p>
+        </div>
+
+        <div class="article-body">
+
+            <p class="lead-paragraph">
+                La Alerta Sísmica es una herramienta pensada para darte segundos valiosos antes de que llegue un sismo fuerte. 
+                Su propósito no es asustar: es darte tiempo de actuar. Comprender qué significa y cómo responde tu cuerpo en ese 
+                momento te permite aprovechar esos segundos de forma efectiva.
+            </p>
+
+            <h2>1. ¿Qué es la Alerta Sísmica?</h2>
+            <p>
+                Es un sistema que detecta un sismo fuerte cerca de la costa y envía una señal antes de que las ondas lleguen al 
+                Valle de México y ciudades cercanas. No predice sismos: únicamente detecta el movimiento antes de que tú puedas sentirlo.
+            </p>
+
+            <p><strong>En pocas palabras:</strong> el sistema detecta, avisa y te permite prepararte.</p>
+
+            <h2>2. ¿Por qué no siempre suena?</h2>
+            <p>
+                La alerta solo se activa cuando un temblor puede causar daños fuertes. Si el sistema detecta que el sismo no representa 
+                un riesgo significativo, no la activa. Esto evita falsas alarmas y mantiene la confianza en el sistema.
+            </p>
+
+            <ul>
+                <li>Sismos lejos del sistema de sensores → no activan alerta.</li>
+                <li>Sismos muy profundos → pueden sentirse, pero no activarse.</li>
+                <li>Sismos moderados → no se activan porque no representan peligro estructural.</li>
+            </ul>
+
+            <h2>3. Qué hacer cuando suena la Alerta (paso a paso)</h2>
+            <p>
+                Cuando escuches los primeros tonos, actúa de la siguiente manera:
+            </p>
+
+            <ul>
+                <li><strong>Mantén la calma durante los primeros segundos.</strong> La reacción impulsiva puede causar accidentes.</li>
+                <li><strong>Aléjate de ventanas, estantes o vidrios.</strong></li>
+                <li><strong>Muévete a la zona segura más cercana.</strong> No busques la “zona perfecta”. La más cercana es la mejor.</li>
+                <li><strong>Si estás en un piso alto:</strong> NO uses escaleras durante la alerta; podrías resbalar o caer cuando empiece el movimiento.</li>
+                <li><strong>Si estás en planta baja y a un paso de la salida:</strong> Sal con calma, pero no corras.</li>
+            </ul>
+
+            <h2>4. Ejemplos reales de tiempo de respuesta</h2>
+            <p>
+                El tiempo de ventaja depende de dónde ocurrió el sismo:
+            </p>
+
+            <ul>
+                <li><strong>Colima / Michoacán:</strong> 50–70 segundos de ventaja.</li>
+                <li><strong>Oaxaca:</strong> 20–40 segundos.</li>
+                <li><strong>Guerrero (cerca de Acapulco):</strong> 5–15 segundos.</li>
+            </ul>
+
+            <p>
+                Incluso 5 segundos bien aprovechados pueden salvar vidas.
+            </p>
+
+            <h2>5. Qué hacer si estás afuera o en un transporte</h2>
+
+            <h3>● En la calle</h3>
+            <ul>
+                <li>Busca un espacio abierto.</li>
+                <li>Aléjate de edificios, bardas, cables y espectaculares.</li>
+            </ul>
+
+            <h3>● En el metro o transporte público</h3>
+            <ul>
+                <li>No intentes bajar del vehículo.</li>
+                <li>Sujétate de un tubo o asiento.</li>
+                <li>Sigue indicaciones del conductor o personal del sistema.</li>
+            </ul>
+
+            <h2>6. Qué NO hacer cuando suena la alerta</h2>
+            <ul>
+                <li>No corras sin dirección.</li>
+                <li>No intentes evacuar desde pisos altos.</li>
+                <li>No revises el celular en ese momento (te desconcentra).</li>
+                <li>No busques objetos personales.</li>
+            </ul>
+
+            <blockquote>
+                “La alerta no te pide correr: te pide actuar con calma e inteligencia.  
+                El objetivo es prepararte, no provocarte pánico.”
+            </blockquote>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="finalizarModulo(2)" class="all-posts-btn">
+                    Finalizar Módulo
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+    function finalizarModulo(num) {
+        sessionStorage.setItem("modulo_" + num + "_leido", "true");
+        window.location.href = "educ_sis.html";
+    }
+</script>
+
+</body>
+</html>

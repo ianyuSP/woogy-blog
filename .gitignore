@@ -1,0 +1,4 @@
+woogy_backend/
+__pycache__/
+*.pyc
+*.pyo

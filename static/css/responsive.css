@@ -1,0 +1,50 @@
+/* --- 7. MEDIA QUERIES (Para Responsivo) --- */
+@media (max-width: 900px) {
+    /* En pantallas medianas, cambia el diseño principal a una columna */
+    .main-content {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+
+    .sidebar {
+        /* Para que el sidebar ocupe todo el ancho */
+        padding: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* En pantallas pequeñas, apila las imágenes superiores y el formulario */
+    .hero-section {
+        flex-direction: column;
+    }
+
+    .hero-image-left, .hero-image-right, .hero-center {
+        flex: none;
+        width: 100%;
+    }
+
+    .hero-main-img {
+        padding-top: 70%; /* Ajuste para el móvil */
+    }
+
+    .hero-title-overlay h1 {
+        font-size: 2em;
+    }
+
+    .post {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .post-image-small {
+        width: 100%;
+    }
+
+    .form-group {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-input {
+        margin-bottom: 10px;
+    }
+}

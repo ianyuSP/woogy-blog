@@ -1,0 +1,910 @@
+/* --- 1. CONFIGURACIÓN BÁSICA Y FUENTES --- */
+:root{
+--primary-color: #A36551; /* Color principal (terracota/rojizo) */
+    --secondary-color: #EFEBE9; /* Fondo claro/beige */
+    --text-color: #333;
+    --light-text: #666;
+    --font-serif: 'Georgia', serif; /* Simulación de fuente serif */
+    --font-sans: 'Helvetica Neue', sans-serif; /* Simulación de fuente sans-serif */
+}
+
+*{
+box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+font-family: var(--font-sans);
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3{
+font-family: var(--font-serif);
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+a{
+text-decoration: none;
+    color: var(--text-color);
+}
+
+/* --- 2. NAVEGACIÓN Y HEADER --- */
+.header{
+background-color: white;
+    padding: 15px 5%;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar{
+display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo{
+font-family: var(--font-serif);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.menu a{
+margin: 0 10px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    color: var(--light-text);
+}
+
+.social-icons span{
+margin-left: 10px;
+    color: var(--light-text);
+    font-size: 1.1em;
+}
+
+.fa-facebook{
+font-size: 40px;
+    padding-right: 20px;
+}
+
+.fa-github{
+font-size: 40px;
+    padding-right: 20px;
+}
+
+.fa-user{
+font-size: 40px;
+}
+
+/* --- 3. SECCIÓN SUPERIOR (HERO) --- */
+.hero-section{
+display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 5%;
+    gap: 10px;
+}
+
+.hero-image-left, .hero-image-right{
+flex: 1;
+    overflow: hidden; /* Asegura que la imagen no sobresalga */
+}
+
+.hero-center{
+flex: 2;
+    position: relative;
+}
+
+/* Contenedores para Imágenes */
+.image-placeholder{
+width: 100%;
+    /* Usa un truco para mantener la proporción de aspecto con un relleno */
+    padding-top: 100%; /* Ejemplo: 1:1, ajusta según la proporción de tus imágenes */
+    background-color: #d1c4b7; /* Color de fondo para ver el espacio */
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-main-img{
+padding-top: 60%; /* Proporción para la imagen central */
+}
+
+/* IMPORTANTE: ESTO HACE QUE TUS IMÁGENES LOCALES SE AJUSTEN */
+.image-placeholder img{
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra el contenedor sin distorsionarse */
+    display: block; /* Asegura que la imagen sea un bloque */
+}
+
+.hero-title-overlay{
+position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white; /* Color de texto del título */
+    z-index: 10;
+}
+
+.hero-title-overlay h1{
+font-size: 2.5em;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para el texto */
+    display: inline-block;
+    padding: 5px 15px;
+}
+
+/* --- 4. CONTENIDO PRINCIPAL Y BARRA LATERAL --- */
+.main-content{
+display: grid;
+    /* Define 3 columnas: 2 para el blog, 1 para el sidebar (proporción 2:1) */
+    grid-template-columns: 2fr 1fr; 
+    gap: 40px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 5%;
+}
+
+.blog-posts{
+display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.post{
+display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.post:last-of-type{
+border-bottom: none;
+}
+
+.post-image-small{
+flex-shrink: 0; /* Evita que la imagen se reduzca más de lo necesario */
+    width: 30%; /* Ancho fijo para la imagen pequeña */
+}
+
+.image-placeholder-small{
+width: 100%;
+    padding-top: 100%; /* Proporción 1:1 */
+    background-color: #d1c4b7;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Estilo para las imágenes pequeñas de los posts */
+.image-placeholder-small img{
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.post-info{
+flex-grow: 1;
+}
+
+.post-date{
+font-size: 0.8em;
+    color: var(--light-text);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.post-info h3{
+margin-top: 0;
+    font-size: 1.2em;
+}
+
+.post-info p{
+font-size: 0.9em;
+    color: var(--light-text);
+}
+
+.all-posts-btn{
+align-self: flex-start;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+.all-posts-btn:hover{
+background-color: #8a5342;
+}
+
+/* --- 5. SIDEBAR (Barra Lateral) --- */
+.sidebar{
+background-color: white;
+    padding: 30px;
+    height: fit-content; /* Se ajusta a la altura de su contenido */
+}
+
+.newsletter{
+background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+}
+
+.newsletter h3{
+color: white;
+}
+
+/* Nuevo estilo para el subtítulo de suscripción */
+.newsletter .subtitle{
+color: #f7f7f7;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.newsletter input[type="email"], .newsletter button{
+width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.newsletter input[type="email"]{
+background-color: rgba(255, 255, 255, 0.9);
+    color: var(--text-color);
+}
+
+.newsletter button{
+background-color: white;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.instagram-feed h3{
+text-align: center;
+    margin-bottom: 15px;
+}
+
+.insta-grid{
+display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.insta-photo{
+width: 100%;
+    padding-top: 100%; /* Proporción 1:1 */
+    background-color: #c5a99e;
+    position: relative;
+    font-size: 0.6em;
+    text-align: center;
+    padding: 5px;
+}
+
+.social-links-bottom{
+text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.social-links-bottom span{
+margin: 0 5px;
+    color: var(--light-text);
+}
+
+/* --- 6. SECCIÓN DE CONTACTO (INFERIOR) --- */
+.contact-section{
+max-width: 800px;
+    margin: 40px auto 80px auto;
+    text-align: center;
+    padding: 0 5%;
+}
+
+.contact-form{
+display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group{
+display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.form-input{
+flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+    font-family: var(--font-sans);
+}
+
+.full-width{
+flex: none;
+    width: 100%;
+}
+
+.message-input{
+min-height: 80px;
+}
+
+.submit-btn{
+align-self: center;
+    padding: 10px 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+/* --- 8. FOOTER --- */
+.main-footer{
+background-color: var(--text-color); /* Fondo oscuro */
+    color: white;
+    padding-top: 50px;
+    font-family: var(--font-sans);
+}
+
+.footer-content{
+display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5% 30px 5%;
+    flex-wrap: wrap; /* Permite que las secciones se envuelvan en pantallas pequeñas */
+}
+
+.footer-section{
+flex: 1; /* Distribuye el espacio entre las 3 secciones */
+    min-width: 250px; /* Ancho mínimo para evitar que se aprieten demasiado */
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.footer-section h3{
+font-family: var(--font-serif);
+    color: var(--primary-color); /* Títulos en color principal */
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.footer-section p, .footer-section ul{
+font-size: 0.9em;
+    color: #ccc;
+}
+
+.footer-section ul{
+list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li{
+margin-bottom: 8px;
+}
+
+.footer-section a{
+color: #ccc;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover{
+color: var(--primary-color);
+}
+
+/* Estilo para el marcador de Protección Civil */
+.footer-section .contact p{
+font-weight: bold;
+    color: #eee;
+}
+
+.social-footer span{
+margin-right: 15px;
+    font-size: 1.3em;
+    color: #ccc;
+}
+
+/* Sección de Copyright */
+.footer-bottom{
+background-color: #222; /* Un color ligeramente más oscuro para la línea de copyright */
+    color: #aaa;
+    text-align: center;
+    padding: 15px 5%;
+    font-size: 0.8em;
+    border-top: 1px solid #333;
+}
+
+.footer-bottom a{
+color: var(--primary-color); /* Color de enlace para el proyecto */
+    font-weight: bold;
+}
+
+.footer-bottom a:hover{
+text-decoration: underline;
+}
+
+/* Material de apoyo*/
+/* Estilos de título y contenedor principal ya definidos en .page-title-section y .main-content */
+
+/* Contenedor de la cuadrícula de Tarjetas de Apoyo */
+.support-grid{
+display: grid;
+    /* Dos columnas en pantallas grandes */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 30px;
+    padding-right: 20px; /* Separación del sidebar */
+}
+
+/* Estilo de cada Tarjeta de Recurso */
+.support-card{
+background-color: white;
+    padding: 25px;
+    border-top: 5px solid var(--primary-color); /* Línea de color para destacar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    display: flex; /* Usamos Flexbox dentro de la tarjeta */
+    gap: 20px;
+}
+
+.card-icon-container{
+flex-shrink: 0;
+    font-size: 2.5em;
+    color: var(--primary-color); /* Icono en color principal */
+}
+
+.card-info{
+flex-grow: 1;
+}
+
+.card-info h3{
+font-size: 1.3em;
+    margin-bottom: 5px;
+}
+
+.card-info p{
+font-size: 0.9em;
+    color: var(--light-text);
+    margin-bottom: 15px;
+}
+
+/* Estilos para botones de Descarga/Enlace */
+.download-btn, .external-link{
+display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--primary-color);
+    color: white !important; /* Sobrescribimos el color de enlace por defecto */
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover, .external-link:hover{
+background-color: #8a5342;
+}
+
+.download-btn i, .external-link i{
+margin-left: 8px;
+}
+
+/* --- 9. ESTILOS ESPECÍFICOS DE PÁGINA: MATERIAL DE APOYO (Tarjetas/Grid) --- */
+/* (Este CSS aplica también a Hechos Históricos) */
+
+.support-grid{
+display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 30px;
+    padding-right: 20px;
+}
+
+.support-card{
+background-color: white;
+    padding: 25px;
+    border-top: 5px solid var(--primary-color); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    display: flex; 
+    gap: 20px;
+}
+
+.card-icon-container{
+flex-shrink: 0;
+    font-size: 2.5em;
+    color: var(--primary-color);
+}
+
+/* ... (resto de los estilos de tarjeta) ... */
+
+/* --- 10. ESTILOS ESPECÍFICOS PARA ARTÍCULOS INDIVIDUALES --- */
+.article-section{
+max-width: 900px; /* Ancho máximo para centrar el contenido */
+    margin: 40px auto;
+    padding: 0 5%;
+}
+
+.article-header{
+text-align: center;
+    margin-bottom: 40px;
+}
+
+.article-title{
+font-size: 2.5em;
+    color: var(--primary-color);
+}
+
+.article-meta{
+font-size: 0.9em;
+    color: var(--light-text);
+    margin-top: 5px;
+}
+
+.article-hero-image{
+margin-top: 25px;
+}
+
+.article-hero-image img{
+width: 100%;
+    height: auto;
+    max-height: 400px; /* Limita la altura de la imagen principal */
+    object-fit: cover;
+}
+
+.article-body{
+font-size: 1.1em;
+    line-height: 1.8;
+}
+
+.article-body h2{
+font-size: 1.8em;
+    margin-top: 30px;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 5px;
+    color: var(--text-color);
+}
+
+.article-body p{
+margin-bottom: 1.5em;
+    text-align: justify; /* Hace que el texto se vea más ordenado */
+}
+
+.lead-paragraph{
+font-size: 1.2em;
+    font-style: italic;
+    color: var(--text-color);
+    border-left: 5px solid var(--primary-color);
+    padding-left: 15px;
+    margin: 20px 0 30px 0;
+}
+
+/* Estilo para las citas destacadas */
+.article-body blockquote{
+background-color: white;
+    padding: 20px;
+    margin: 30px 0;
+    border-left: 5px solid var(--primary-color);
+    font-style: italic;
+    font-size: 1.1em;
+    color: var(--light-text);
+}
+
+/* Nuevo estilo limpio para la página de Hechos Históricos */
+
+.clean-history-section{
+max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.clean-article{
+margin-bottom: 40px;
+    padding: 10px 5px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.clean-article h3{
+font-size: 1.6rem;
+    color: #623f2c;
+    margin-bottom: 10px;
+}
+
+.clean-article p{
+line-height: 1.6;
+    color: #3f3f3f;
+    margin-bottom: 12px;
+}
+
+.clean-link{
+color: #623f2c;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 1px solid #623f2c;
+}
+
+.clean-link:hover{
+opacity: 0.7;
+}
+
+/* Ocultamos estilos anteriores sin borrar nada */
+.support-grid,
+.support-card,
+.card-icon-container{
+all: unset;
+    display: block;
+}
+
+/* --- TITULOS GENERALES DE PÁGINA (ESTILO UNIFICADO) --- */
+.page-title-section{
+text-align: center;
+    padding: 50px 0 20px 0;
+}
+
+.page-title-section .title-container h2{
+font-family: var(--font-serif);
+    font-size: 2.6em;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.page-title-section .title-container p{
+max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.05em;
+    color: var(--light-text);
+    line-height: 1.6;
+}
+
+/* ======= ESTILOS LIMPIOS PARA EDUCACIÓN SÍSMICA ======= */
+.section-education{
+max-width: 900px;
+    margin: 0 auto 60px auto;
+    padding: 0 5%;
+}
+
+.section-education article{
+padding: 28px 0;
+    border-bottom: 1px solid #e0dede;
+}
+
+.section-education article:last-child{
+border-bottom: none;
+}
+
+.section-education h3{
+font-family: var(--font-serif);
+    font-size: 1.7rem;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.section-education p{
+font-size: 1.05rem;
+    color: var(--text-color);
+    line-height: 1.7;
+    text-align: justify;
+    max-width: 760px;
+    margin: 0 auto 10px auto;
+}
+
+.section-education .external-link{
+display: inline-block;
+    margin-top: 12px;
+    background-color: var(--primary-color);
+    color: white !important;
+    padding: 10px 16px;
+    border-radius: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.section-education .external-link:hover{
+background-color: #8a5342;
+}
+
+/* ======= ESTILOS LIMPIOS PARA MATERIAL DE APOYO ======= */
+
+.section-support{
+max-width: 1150px;
+    margin: 0 auto;
+    padding: 20px 5% 60px 5%;
+}
+
+.support-grid{
+display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 25px;
+}
+
+.support-card{
+background: #ffffff;
+    padding: 22px;
+    border: 1px solid #e3dfdf;
+    border-radius: 6px;
+    transition: 0.25s ease;
+}
+
+.support-card:hover{
+border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.card-icon-container{
+font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.support-card h3{
+font-family: var(--font-serif);
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.support-card p{
+text-align: justify;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.download-btn,
+.external-link{
+display: inline-block;
+    padding: 10px 14px;
+    background: var(--primary-color);
+    color: #fff !important;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: 0.25s;
+}
+
+.download-btn:hover,
+.external-link:hover{
+background: #8a5342;
+}
+
+/** caja principal del simulador **/
+.sim-box {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/** título del simulador **/
+.sim-title {
+    text-align: center;
+    font-family: var(--font-serif);
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/** campos **/
+.sim-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.sim-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+/** inputs **/
+.sim-input,
+.sim-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    font-family: var(--font-sans);
+}
+
+/** resultado **/
+.sim-result {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 30px auto 0 auto;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.hidden {
+    display: none;
+}
+
+.modulo-completado {
+    color: #3aa65a;
+    font-weight: bold;
+}
+/** loader del simulador **/
+.sim-loading {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0 10px;
+}
+
+.sim-loading .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    animation: sim-bounce 0.8s infinite alternate;
+    opacity: 0.6;
+}
+
+.sim-loading .dot:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.sim-loading .dot:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes sim-bounce {
+    from {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    to {
+        transform: translateY(-6px);
+        opacity: 1;
+    }
+}
+
+/** texto de recomendación **/
+.sim-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    text-align: justify;
+    color: var(--text-color);
+    margin-bottom: 18px;
+}
+
+.sim-helper-text {
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--light-text);
+}
+/** evitar que el cuadro del simulador se reduzca demasiado **/
+.sim-box {
+    min-height: 400px; /* AJUSTABLE según veas */
+}
+.sim-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.sim-btn-restart {
+    margin-top: auto; /* Mantiene el botón siempre abajo */
+}

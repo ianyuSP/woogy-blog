@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1: Los Primeros 60 Segundos</title>
+
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+
+    <section class="page-title-section">
+        <div class="title-container">
+            <h2>Módulo 1: Los Primeros 60 Segundos</h2>
+            <p>Acciones inmediatas para proteger tu vida durante un sismo.</p>
+        </div>
+    </section>
+
+    <section class="article-section">
+        <div class="article-header">
+            <h1 class="article-title">Qué hacer en los primeros 60 segundos de un sismo</h1>
+            <p class="article-meta">Basado en recomendaciones de Protección Civil y CENAPRED</p>
+        </div>
+
+        <div class="article-body">
+
+            <p class="lead-paragraph">
+                La mayoría de las lesiones durante un sismo ocurren en los primeros segundos por caídas, golpes de
+                objetos o intentos de correr mientras el suelo se mueve. Por eso, el objetivo principal es **proteger tu cuerpo**
+                y **evitar movimientos innecesarios** mientras pasa lo más fuerte del temblor.
+            </p>
+
+            <h2>1. Aplica las tres acciones esenciales</h2>
+            <p>
+                Estas son las recomendaciones oficiales más efectivas y fáciles de aplicar en casa, trabajo o escuela:
+            </p>
+
+            <ul>
+                <li><strong>Agacharte:</strong> baja tu centro de gravedad para evitar caídas.</li>
+                <li><strong>Cubrirte:</strong> usa una mesa resistente o protege tu cabeza y cuello con los brazos.</li>
+                <li><strong>Sujetarte:</strong> mantén la estabilidad tomando una pata de la mesa o un soporte firme.</li>
+            </ul>
+
+            <p>
+                Esto reduce el riesgo de golpes por objetos que caen (lámparas, vidrios, estantes, etc.) y evita que pierdas
+                el equilibrio durante el movimiento brusco.
+            </p>
+
+            <h2>2. Identifica zonas seguras en segundos</h2>
+            <p>
+                Aunque no tengas tiempo de pensar demasiado, sí puedes elegir entre dos lugares seguros:
+            </p>
+
+            <ul>
+                <li><strong>Bajo una mesa resistente</strong> (la opción más recomendada).</li>
+                <li><strong>Junto a una pared estructural</strong> que no tenga ventanas ni muebles altos.</li>
+            </ul>
+
+            <p>
+                No te pongas debajo de marcos de puertas a menos que el marco sea realmente robusto. La mayoría de las
+                casas modernas no están diseñadas para soportar peso en esa zona.
+            </p>
+
+            <h2>3. Qué NO debes hacer</h2>
+            <p>
+                Algunos errores comunes aumentan el riesgo de lesiones. Evita:
+            </p>
+
+            <ul>
+                <li><strong>Correr a las escaleras:</strong> suelen ser las zonas más frágiles del edificio.</li>
+                <li><strong>Tratar de salir del edificio mientras tiembla:</strong> la mayoría de las personas se lastiman justo en ese intento.</li>
+                <li><strong>Acercarte a ventanas o estantes:</strong> es donde más objetos salen despedidos.</li>
+                <li><strong>Usar elevadores:</strong> se pueden detener o fallar por el movimiento.</li>
+            </ul>
+
+            <h2>4. Si estás en la calle</h2>
+            <p>
+                Al aire libre, lo principal es alejarte rápidamente de:
+            </p>
+
+            <ul>
+                <li>Edificios</li>
+                <li>Postes</li>
+                <li>Vidrios</li>
+                <li>Espectaculares</li>
+            </ul>
+
+            <p>
+                Reubícate en un espacio abierto. Mantén la calma y observa a tu alrededor para evitar cables caídos o estructuras inestables.
+            </p>
+
+            <h2>5. Si estás en el transporte público</h2>
+            <p>
+                En transporte, el control no está en tus manos. Lo más seguro es:
+            </p>
+
+            <ul>
+                <li>Permanecer sentado o sujetarte de un tubo.</li>
+                <li>Seguir las indicaciones del conductor.</li>
+                <li>No intentar bajar del vehículo en movimiento.</li>
+            </ul>
+
+            <h2>6. Después de que pase lo más fuerte</h2>
+            <p>
+                El movimiento fuerte suele durar menos de un minuto. Cuando termine, realiza estas acciones rápidas:
+            </p>
+
+            <ul>
+                <li>Respira hondo y recupera estabilidad.</li>
+                <li>Verifica si tú o tus acompañantes tienen lesiones visibles.</li>
+                <li>Desconecta gas y electricidad solo si notas daños.</li>
+                <li>Evacúa con calma si el edificio presenta grietas, vidrios rotos o caída de objetos pesados.</li>
+            </ul>
+
+            <blockquote>
+                “Tu objetivo en los primeros segundos no es correr: es mantenerte estable y proteger tu cuerpo. La rapidez
+                no es salir; la rapidez es cubrirte correctamente.”
+            </blockquote>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="finalizarModulo(1)" class="all-posts-btn">
+                    Finalizar Módulo
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+    function finalizarModulo(num) {
+        sessionStorage.setItem("modulo_" + num + "_leido", "true");
+        window.location.href = "educ_sis.html";
+    }
+</script>
+
+
+</body>
+</html>

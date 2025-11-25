@@ -126,8 +126,8 @@
         const simBox = document.getElementById("sim-box");
         const originalBoxHTML = simBox.innerHTML;
 
-        // URL de la API Flask (cuando la tengamos lista la cambiamos aquí)
-        const API_URL = "https://woogy-backend-pp.onrender.com/simular"; // TODO: reemplazar con la URL real
+        // URL de la API Flask
+        const API_URL = "https://woogy-backend-pp.onrender.com/simular";
 
         function configurarFormulario() {
             const btn = document.getElementById("sim-submit");
@@ -178,14 +178,13 @@ const response = await fetch(API_URL, {
 
 
 if (!response.ok) {
-    throw new Error("Error en la respuesta del servidor");
+    const data = await response.json();
+    throw new Error(data.error || "Ocurrió un error");
 }
 
 const data = await response.json();
 const recommendation = data.recomendacion || "No se pudo generar la recomendación.";
-// Si quieres, también podrías usar data.riesgo o data.intervalo para mostrar más info
 
-                    // Mostrar resultado dentro del mismo cuadro
                     simBox.innerHTML = `
                         <h3 class="sim-title">Recomendación Sísmica</h3>
                         <p class="sim-text">
@@ -198,22 +197,22 @@ const recommendation = data.recomendacion || "No se pudo generar la recomendaci�
 
                     const restartBtn = simBox.querySelector(".sim-btn-restart");
                     restartBtn.addEventListener("click", () => {
-                        // Restaurar el formulario original
                         simBox.innerHTML = originalBoxHTML;
                         configurarFormulario();
                     });
 
                 } catch (err) {
-                    console.error(err);
-                    simBox.innerHTML = `
-                        <h3 class="sim-title">Ocurrió un problema</h3>
-                        <p class="sim-text">
-                            No fue posible obtener la recomendación. Intenta nuevamente.
-                        </p>
-                        <button type="button" class="all-posts-btn sim-btn-restart">
-                            Volver al simulador
-                        </button>
-                    `;
+    console.error(err);
+    simBox.innerHTML = `
+        <h3 class="sim-title">Ocurrió un problema</h3>
+        <p class="sim-text">
+            ${err.message}
+        </p>
+        <button type="button" class="all-posts-btn sim-btn-restart">
+            Volver al simulador
+        </button>
+    `;
+
 
                     const restartBtn = simBox.querySelector(".sim-btn-restart");
                     restartBtn.addEventListener("click", () => {

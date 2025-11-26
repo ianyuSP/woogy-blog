@@ -917,13 +917,13 @@ background: #8a5342;
     gap: 1.5rem;
 }
 
+
 .sim-risk-block {
-    background-color: #fdfaf8;
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     max-width: 650px;
+    width: 650px;
+    margin: 0 auto 35px auto;
 }
+
 
 .sim-subtitle {
     font-size: 1rem;
@@ -943,12 +943,13 @@ background: #8a5342;
 }
 
 .sim-risk-graph {
-    width: 650 px;
-    height: 240px;
+    width: 650px !important;
+    max-width: 650px !important;
+    height: 260px;
     display: block;
-    margin: 0 auto 25px auto;
-    max-width: 650px;
+    margin: 0 auto;
 }
+
 
 .sim-axis {
     stroke: #cbb6a6;

@@ -898,7 +898,7 @@ background: #8a5342;
 }
 /** evitar que el cuadro del simulador se reduzca demasiado **/
 .sim-box {
-    min-height: 400px; /* AJUSTABLE según veas */
+    min-height: 400px;
 }
 .sim-box {
     display: flex;
@@ -981,3 +981,33 @@ background: #8a5342;
     height: auto;
     border-radius: 8px;
 }
+
+
+
+
+
+.sim-risk-graph {
+    width: 650px;
+    margin: 0 auto 25px auto;
+    display: block;
+}
+
+.sim-risk-map {
+    display: block;
+    margin: 0 auto;
+}
+
+.sim-tick-label {
+    fill: #555;
+    font-weight: bold;
+}
+
+.sim-axis {
+    stroke: #bba89b;
+    stroke-width: 2;
+}
+
+.sim-risk-line {
+    transition: all 0.4s ease-out;
+}
+

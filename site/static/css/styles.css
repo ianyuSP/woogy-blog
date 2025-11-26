@@ -1043,3 +1043,36 @@ background: #8a5342;
     }
 
 }
+
+
+.sim-speedometer-block {
+    width: 650px;
+    margin: 0 auto 25px auto;
+    text-align: center;
+}
+
+.speedometer-wrapper {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.speedometer-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.needle-anim {
+    transition: transform 0.8s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sim-speedometer-block {
+        width: 95%;
+    }
+    .speedometer-wrapper {
+        width: 100%;
+    }
+}

@@ -225,47 +225,64 @@
                             ${recommendation}
                         </p>
 
-<div class="sim-risk-block">
+<div class="sim-speedometer-block">
     <h4 class="sim-subtitle">
         Nivel de riesgo: <span class="sim-risk-level">${nivel.toUpperCase()}</span>
         <span class="sim-risk-interval">(${intervalo})</span>
     </h4>
 
-    <svg viewBox="0 0 650 220" class="sim-risk-graph">
-        <!-- Ejes -->
-        <line x1="50" y1="20" x2="50" y2="200" class="sim-axis"/>
-        <line x1="50" y1="200" x2="620" y2="200" class="sim-axis"/>
+    <div class="speedometer-wrapper">
+        <svg viewBox="0 0 300 170" class="speedometer-svg">
+            <!-- Dial background -->
+            <defs>
+                <linearGradient id="speedometerGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#3b7a3a"/>
+                    <stop offset="40%" stop-color="#d4a017"/>
+                    <stop offset="70%" stop-color="#c96b2c"/>
+                    <stop offset="100%" stop-color="#b02a2a"/>
+                </linearGradient>
+            </defs>
 
-        <!-- Marcas y etiquetas de magnitud 1–10 -->
-        ${[1,2,3,4,5,6,7,8,9,10].map(m => {
-            const t = (m - 1) / 9;
-            const y = 200 - t * (200 - 20);
-            return `
-                <line x1="45" y1="${y}" x2="50" y2="${y}" class="sim-tick"/>
-                <text x="40" y="${y + 4}" class="sim-tick-label" text-anchor="end" font-size="11">${m}</text>
-            `;
-        }).join("")}
+            <!-- Semi circle -->
+            <path d="M20 150 A130 130 0 0 1 280 150"
+                  stroke="url(#speedometerGradient)"
+                  stroke-width="28"
+                  fill="none" />
 
-        <!-- Definición de la punta de flecha -->
-        <defs>
-            <marker id="arrow-head" markerWidth="16" markerHeight="16" refX="10" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="${strokeColor}" />
-            </marker>
-        </defs>
+            <!-- Tick marks -->
+            ${[1,2,3,4,5,6,7,8,9,10].map((m, idx) => {
+                const angle = Math.PI * (1 - idx / 9);
+                const x1 = 150 + Math.cos(angle) * 95;
+                const y1 = 150 - Math.sin(angle) * 95;
+                const x2 = 150 + Math.cos(angle) * 120;
+                const y2 = 150 - Math.sin(angle) * 120;
+                return `
+                    <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"
+                          stroke="#222" stroke-width="3" />
+                `;
+            }).join("")}
 
-        <!-- Flecha curva tipo “rayo/stonks” -->
-        <path d="
-            M 50 200
-            Q 335 20 620 ${200 - yPos * (200 - 20)}
-            "
-            stroke="${strokeColor}"
-            stroke-width="6"
-            fill="none"
-            marker-end="url(#arrow-head)"
-            class="sim-risk-line" />
-    </svg>
+            <!-- Needle -->
+            <line id="needle"
+                  x1="150" y1="150"
+                  x2="150" y2="40"
+                  stroke="${strokeColor}"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  transform="rotate(${(yPos * 180) - 180},150,150)"
+                  class="needle-anim"/>
+
+            <!-- Center circle -->
+            <circle cx="150" cy="150" r="10" fill="#222"/>
+
+            <!-- Magnitude text -->
+            <text x="150" y="115" text-anchor="middle"
+                  font-size="28" font-weight="bold" fill="#222">
+                ${magnitud.toFixed(1)}
+            </text>
+        </svg>
+    </div>
 </div>
-
                             <div class="sim-risk-block">
                                 <h4 class="sim-subtitle">Mapa de Iztapalapa según el nivel de riesgo</h4>
                                 <div class="sim-map-wrapper">

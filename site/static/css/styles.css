@@ -1011,3 +1011,35 @@ background: #8a5342;
     transition: all 0.4s ease-out;
 }
 
+/* ==== Versión responsiva para móviles ==== */
+
+@media (max-width: 768px) {
+
+    .sim-risk-block {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 10px;
+    }
+
+    .sim-risk-graph {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .sim-map-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .sim-risk-map {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .sim-tick-label {
+        font-size: 9px !important;
+    }
+
+}

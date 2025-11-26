@@ -8,6 +8,42 @@
     <link rel="stylesheet" href="../static/css/responsive.css">
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .sim-gauge-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto 25px auto;
+            text-align: center;
+        }
+
+        .gauge-wrapper {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .gauge-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gauge-value {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .gauge-wrapper {
+                max-width: 95%;
+            }
+            .gauge-value {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -38,6 +74,7 @@
                 </p>
             </div>
         </section>
+
         <section class="article-section">
             <div class="sim-box" id="sim-box">
 
@@ -85,6 +122,7 @@
         </section>
 
     </main>
+
     <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-section about">
@@ -112,205 +150,158 @@
                 <a class="prototipico-link" href="documento-prototipico.pdf" target="_blank">Proyecto Prototípico</a></p>
         </div>
     </footer>
-        <script>
-    (function () {
-        const simBox = document.getElementById("sim-box");
-        const originalBoxHTML = simBox.innerHTML;
 
-        const API_URL = "https://woogy-backend-pp.onrender.com/simular";
+<script>
+(function () {
+    const simBox = document.getElementById("sim-box");
+    const originalBoxHTML = simBox.innerHTML;
 
-        function getColorHex(colorName) {
-            switch (colorName) {
-                case "verde":    return "#3b7a3a";
-                case "amarillo": return "#d4a017";
-                case "naranja":  return "#c96b2c";
-                case "rojo":     return "#b02a2a";
-                default:         return "#3b7a3a";
-            }
+    const API_URL = "https://woogy-backend-pp.onrender.com/simular";
+
+    function getColorHex(colorName) {
+        switch (colorName) {
+            case "verde":    return "#2ecc71";
+            case "amarillo": return "#f1c40f";
+            case "naranja":  return "#e67e22";
+            case "rojo":     return "#e74c3c";
+            default:         return "#2ecc71";
         }
+    }
 
-        function configurarFormulario() {
-            const btn = document.getElementById("sim-submit");
-            if (!btn) return;
+    function configurarFormulario() {
+        const btn = document.getElementById("sim-submit");
+        if (!btn) return;
 
-            btn.addEventListener("click", async () => {
-                const magInput = document.getElementById("magnitude");
-                const floorSelect = document.getElementById("floor");
-                const movementSelect = document.getElementById("movement");
+        btn.addEventListener("click", async () => {
+            const magInput = document.getElementById("magnitude");
+            const floorSelect = document.getElementById("floor");
+            const movementSelect = document.getElementById("movement");
 
-                const magnitude = parseFloat(magInput.value);
-                const floor = floorSelect.value;
-                const movement = movementSelect.value;
+            const magnitude = parseFloat(magInput.value);
+            const floor = floorSelect.value;
+            const movement = movementSelect.value;
 
-                if (isNaN(magnitude)) {
-                    alert("Ingresa una magnitud válida entre 1.0 y 10.0.");
-                    return;
-                }
+            if (isNaN(magnitude)) {
+                alert("Ingresa una magnitud válida entre 1.0 y 10.0.");
+                return;
+            }
 
-                simBox.innerHTML = `
-                    <h3 class="sim-title">Generando recomendación...</h3>
-                    <div class="sim-loading">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
-                    <p class="sim-helper-text">
-                        Analizando la magnitud, la planta y el tipo de movimiento según el contexto de Iztapalapa.
-                    </p>
-                `;
-
-                try {
-                    await new Promise(resolve => setTimeout(resolve, 500));
-
-                    const response = await fetch(API_URL, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            magnitude: magnitude,
-                            floor: floor,
-                            movement: movement
-                        })
-                    });
-
-                    const data = await response.json().catch(() => ({}));
-
-                    if (!response.ok) {
-                        const mensaje = data.error || "No fue posible obtener la recomendación. Intenta nuevamente.";
-                        simBox.innerHTML = `
-                            <h3 class="sim-title">Ocurrió un problema</h3>
-                            <p class="sim-text">
-                                ${mensaje}
-                            </p>
-                            <button type="button" class="all-posts-btn sim-btn-restart">
-                                Volver al simulador
-                            </button>
-                        `;
-                        const restartBtn = simBox.querySelector(".sim-btn-restart");
-                        restartBtn.addEventListener("click", () => {
-                            simBox.innerHTML = originalBoxHTML;
-                            configurarFormulario();
-                        });
-                        return;
-                    }
-
-                    const recommendation = data.recomendacion || "No se pudo generar la recomendación.";
-                    const nivel = data.nivel || "desconocido";
-                    const color = data.color || "verde";
-                    const intervalo = data.intervalo || "";
-                    const yPos = typeof data.y_pos === "number" ? data.y_pos : 0.0;  // 0–1
-                    const mapaArchivo = data.mapa || "mapa_verde.png";
-
-                    // Escala de la flecha (1–10) en el eje Y
-                    // eje Y: bottomY = magnitud 1, topY = magnitud 10
-                    const axisX = 40;
-                    const bottomY = 130;
-                    const topY = 20;
-
-                    const endX = 280;
-                    const startX = axisX;
-                    const startY = bottomY;
-
-                    // yPos 0 -> mag 1 (abajo), yPos 1 -> mag 10 (arriba)
-                    const arrowY = bottomY - yPos * (bottomY - topY);
-                    const midX = (startX + endX) / 2;
-                    const midY = topY;
-
-                    const strokeColor = getColorHex(color);
-
-                    simBox.innerHTML = `
-                        <h3 class="sim-title">Recomendación Sísmica</h3>
-                        <p class="sim-text">
-                            ${recommendation}
-                        </p>
-
-<div class="sim-risk-block">
-    <h4 class="sim-subtitle">
-        Nivel de riesgo: <span class="sim-risk-level">${nivel.toUpperCase()}</span>
-        <span class="sim-risk-interval">(${intervalo})</span>
-    </h4>
-
-    <svg viewBox="0 0 650 220" class="sim-risk-graph">
-        <!-- Ejes -->
-        <line x1="50" y1="20" x2="50" y2="200" class="sim-axis"/>
-        <line x1="50" y1="200" x2="620" y2="200" class="sim-axis"/>
-
-        <!-- Marcas y etiquetas de magnitud 1–10 -->
-        ${[1,2,3,4,5,6,7,8,9,10].map(m => {
-            const t = (m - 1) / 9;
-            const y = 200 - t * (200 - 20);
-            return `
-                <line x1="45" y1="${y}" x2="50" y2="${y}" class="sim-tick"/>
-                <text x="40" y="${y + 4}" class="sim-tick-label" text-anchor="end" font-size="11">${m}</text>
+            simBox.innerHTML = `
+                <h3 class="sim-title">Generando recomendación...</h3>
+                <div class="sim-loading">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                </div>
+                <p class="sim-helper-text">
+                    Analizando la magnitud, la planta y el tipo de movimiento según Iztapalapa.
+                </p>
             `;
-        }).join("")}
 
-        <!-- Definición de la punta de flecha -->
-        <defs>
-            <marker id="arrow-head" markerWidth="16" markerHeight="16" refX="10" refY="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="${strokeColor}" />
-            </marker>
-        </defs>
+            try {
+                await new Promise(resolve => setTimeout(resolve, 500));
 
-        <!-- Flecha curva tipo “rayo/stonks” -->
-        <path d="
-            M 50 200
-            Q 335 20 620 ${200 - yPos * (200 - 20)}
-            "
-            stroke="${strokeColor}"
-            stroke-width="6"
-            fill="none"
-            marker-end="url(#arrow-head)"
-            class="sim-risk-line" />
-    </svg>
-</div>
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        magnitude: magnitude,
+                        floor: floor,
+                        movement: movement
+                    })
+                });
 
-                            <div class="sim-risk-block">
-                                <h4 class="sim-subtitle">Mapa de Iztapalapa según el nivel de riesgo</h4>
-                                <div class="sim-map-wrapper">
-                                    <img src="../static/img/${mapaArchivo}"
-                                         alt="Mapa de Iztapalapa con nivel de riesgo ${nivel}"
-                                         class="sim-risk-map">
-                                </div>
-                            </div>
-                        </div>
+                const data = await response.json().catch(() => ({}));
 
-                        <button type="button" class="all-posts-btn sim-btn-restart">
-                            Nueva simulación
-                        </button>
-                    `;
-
-                    const restartBtn = simBox.querySelector(".sim-btn-restart");
-                    restartBtn.addEventListener("click", () => {
-                        simBox.innerHTML = originalBoxHTML;
-                        configurarFormulario();
-                    });
-
-                } catch (err) {
-                    console.error(err);
+                if (!response.ok) {
                     simBox.innerHTML = `
                         <h3 class="sim-title">Ocurrió un problema</h3>
-                        <p class="sim-text">
-                            No fue posible obtener la recomendación. Intenta nuevamente.
-                        </p>
+                        <p class="sim-text">${data.error || "No fue posible obtener la recomendación."}</p>
                         <button type="button" class="all-posts-btn sim-btn-restart">
                             Volver al simulador
                         </button>
                     `;
-                    const restartBtn = simBox.querySelector(".sim-btn-restart");
-                    restartBtn.addEventListener("click", () => {
+                    simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
                         simBox.innerHTML = originalBoxHTML;
                         configurarFormulario();
                     });
+                    return;
                 }
-            });
-        }
 
-        configurarFormulario();
-    })();
-    </script>
+                const recommendation = data.recomendacion;
+                const nivel = data.nivel;
+                const intervalo = data.intervalo;
+                const yPos = (magnitude - 1) / 9;
+                const strokeColor = getColorHex(data.color);
+                const needleAngle = -90 + (magnitude - 1) * (180 / 9);
 
+                simBox.innerHTML = `
+                    <h3 class="sim-title">Recomendación Sísmica</h3>
+                    <p class="sim-text">${recommendation}</p>
+
+                    <div class="sim-gauge-container">
+                        <h4 class="sim-subtitle">
+                            Nivel de riesgo: <span class="sim-risk-level">${nivel.toUpperCase()}</span>
+                            <span class="sim-risk-interval">(${intervalo})</span>
+                        </h4>
+
+                        <div class="gauge-wrapper">
+                            <svg viewBox="0 0 300 170" class="gauge-svg">
+                                <path d="M20 150 A130 130 0 0 1 280 150"
+                                      stroke="#222" stroke-width="22" fill="none" stroke-linecap="round"/>
+
+                                <path d="M20 150 A130 130 0 0 1 110 40"
+                                      stroke="#2ecc71" stroke-width="16" fill="none" stroke-linecap="round"/>
+
+                                <path d="M110 40 A130 130 0 0 1 170 40"
+                                      stroke="#f1c40f" stroke-width="16" fill="none" stroke-linecap="round"/>
+
+                                <path d="M170 40 A130 130 0 0 1 280 150"
+                                      stroke="#e74c3c" stroke-width="16" fill="none" stroke-linecap="round"/>
+
+                                <line id="gauge-needle"
+                                      x1="150" y1="150" x2="150" y2="45"
+                                      stroke="${strokeColor}"
+                                      stroke-width="6"
+                                      stroke-linecap="round"
+                                      transform="rotate(${needleAngle},150,150)"/>
+
+                                <circle cx="150" cy="150" r="9" fill="#333"/>
+                            </svg>
+
+                            <div class="gauge-value">
+                                Magnitud: ${magnitude.toFixed(1)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="all-posts-btn sim-btn-restart">
+                        Nueva simulación
+                    </button>
+                `;
+
+                simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
+                    simBox.innerHTML = originalBoxHTML;
+                    configurarFormulario();
+                });
+
+            } catch (err) {
+                simBox.innerHTML = `
+                    <h3 class="sim-title">Ocurrió un problema</h3>
+                    <p class="sim-text">No fue posible obtener la recomendación.</p>
+                    <button type="button" class="all-posts-btn sim-btn-restart">
+                        Volver al simulador
+                    </button>
+                `;
+                simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
+                    simBox.innerHTML = originalBoxHTML;
+                    configurarFormulario();
+                });
+            }
+        });
+    }
+
+    configurarFormulario();
+})();
+</script>
 
 </body>
 </html>

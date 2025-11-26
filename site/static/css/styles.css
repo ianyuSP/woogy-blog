@@ -922,6 +922,7 @@ background: #8a5342;
     max-width: 650px;
     width: 650px;
     margin: 0 auto 35px auto;
+    justify-content: center;
 }
 
 
@@ -979,42 +980,4 @@ background: #8a5342;
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-}
-/* nuevo */
-/* ==== Ajustes específicos del simulador ==== */
-
-.sim-risk-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 35px;
-}
-
-.sim-risk-block {
-    width: 650px !important;
-    max-width: 650px !important;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.sim-risk-graph {
-    width: 650px !important;
-    max-width: 650px !important;
-    height: auto !important;
-    display: block;
-    margin: 0 auto;
-}
-
-.sim-map-wrapper {
-    width: 650px !important;
-    max-width: 650px !important;
-    margin: 0 auto;
-}
-
-.sim-risk-map {
-    width: 650px !important;
-    max-width: 650px !important;
-    height: auto !important;
-    display: block;
-    margin: 0 auto;
 }

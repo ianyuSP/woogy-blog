@@ -946,6 +946,7 @@ background: #8a5342;
     height: 140px;
     display: block;
     margin: 0 auto;
+    max-width: 650px;
 }
 
 .sim-axis {

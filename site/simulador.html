@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Estilos específicos del velocímetro y la gráfica comparativa -->
+    <!-- Estilos extra SOLO para el velocímetro y la gráfica -->
     <style>
+        /* Velocímetro */
         .sim-gauge-container {
             width: 100%;
             max-width: 650px;
@@ -36,30 +37,61 @@
             font-weight: bold;
         }
 
-        /* Contenedor de la gráfica comparativa */
+        /* Gráfica comparativa */
         .sim-chart-container {
             width: 100%;
             max-width: 650px;
-            margin: 0 auto 25px auto;
+            margin: 10px auto 25px auto;
             text-align: center;
         }
 
         .sim-chart-title {
-            font-size: 1rem;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            color: #4b2a1a;
         }
 
-        .sim-chart-subtitle {
-            font-size: 0.85rem;
-            color: #555;
-            margin-bottom: 10px;
+        .sim-chart-helper {
+            font-size: 13px;
+            color: #7a6a5f;
+            margin-bottom: 12px;
+        }
+
+        .sim-chart-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .sim-chart-tab {
+            border: 1px solid #c49575;
+            background-color: #fff;
+            color: #7a4c33;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sim-chart-tab:hover {
+            background-color: #f3e2d6;
+        }
+
+        .sim-chart-tab.active {
+            background-color: #c49575;
+            color: #fff;
         }
 
         .sim-chart-svg {
             width: 100%;
+            max-width: 650px;
             height: auto;
             display: block;
+            margin: 0 auto 10px auto;
         }
 
         .sim-chart-axis {
@@ -68,26 +100,46 @@
         }
 
         .sim-chart-tick {
-            stroke: #bba89b;
+            stroke: #c9b7aa;
             stroke-width: 1;
         }
 
-        .sim-chart-tick-label {
-            fill: #555;
-            font-size: 9px;
+        .sim-chart-label-y {
+            fill: #6b5b52;
+            font-size: 11px;
         }
 
-        .sim-bar {
-            transition: height 0.6s ease-out, y 0.6s ease-out;
+        .sim-chart-label-x {
+            fill: #6b5b52;
+            font-size: 12px;
+        }
+
+        .sim-chart-bar {
+            rx: 8;
+            ry: 8;
+            transition: y 0.35s ease-out, height 0.35s ease-out;
+        }
+
+        .sim-chart-bar-1985 {
+            fill: #e74c3c; /* rojo */
+        }
+
+        .sim-chart-bar-2017 {
+            fill: #3498db; /* azul */
+        }
+
+        .sim-chart-bar-sim {
+            fill: #2ecc71; /* verde */
         }
 
         .sim-chart-legend {
-            margin-top: 8px;
-            font-size: 0.85rem;
             display: flex;
-            justify-content: center;
-            gap: 16px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            font-size: 12px;
+            color: #5f4d42;
+            margin-bottom: 6px;
         }
 
         .sim-chart-legend-item {
@@ -97,9 +149,26 @@
         }
 
         .sim-chart-legend-color {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 3px;
+        }
+
+        .legend-1985 {
+            background-color: #e74c3c;
+        }
+
+        .legend-2017 {
+            background-color: #3498db;
+        }
+
+        .legend-sim {
+            background-color: #2ecc71;
+        }
+
+        .sim-chart-intervals {
+            font-size: 11px;
+            color: #8a7a6f;
         }
 
         @media (max-width: 768px) {
@@ -109,11 +178,8 @@
             .gauge-value {
                 font-size: 16px;
             }
-            .sim-chart-title {
-                font-size: 0.95rem;
-            }
-            .sim-chart-subtitle {
-                font-size: 0.8rem;
+            .sim-chart-container {
+                max-width: 95%;
             }
         }
     </style>
@@ -241,19 +307,21 @@
         }
     }
 
-    // Índices fijos para 1985 y 2017 (0–10)
-    const INDEX_1985 = 9.5;  // Sismo 8.1, daños extremos
-    const INDEX_2017 = 8.0;  // Sismo 7.1, daños altos pero algo menores
+    // Mapea magnitud a un índice de impacto 0–10 aproximado
+    function impactoBase(m) {
+        if (m <= 3) return 1.5;
+        if (m <= 4) return 3;
+        if (m <= 5) return 5;
+        if (m <= 6) return 6.5;
+        if (m <= 7) return 8;
+        if (m <= 8.5) return 9;
+        return 9.5;
+    }
 
-    // Índice global para la simulación (0–10) en función de la magnitud
-    function computeSimulationIndex(mag) {
-        if (mag < 1) return 0;
-        if (mag < 3) return 2;
-        if (mag < 4) return 4;
-        if (mag < 6) return 6;
-        if (mag < 7) return 8;
-        if (mag <= 10) return 9.5;
-        return 0;
+    function clamp01to10(v) {
+        if (v < 0) return 0;
+        if (v > 10) return 10;
+        return v;
     }
 
     function configurarFormulario() {
@@ -317,36 +385,43 @@
                 const recommendation = data.recomendacion;
                 const nivel = data.nivel;
                 const intervalo = data.intervalo;
-                const strokeColor = getColorHex(data.color);
-                const needleAngle = -90 + (magnitude - 1) * (180 / 9);
+                const strokeColor = getColorHex(data.color || "verde");
+                const needleAngle = -90 + (magnitude - 1) * (180 / 9); // 1–10 → -90 a 90
 
-                // Índice global para la simulación (0–10)
-                const indexSim = computeSimulationIndex(magnitude);
+                // Datos base para la gráfica comparativa
+                const mag1985 = 8.1;
+                const mag2017 = 7.1;
 
-                // Parámetros de la gráfica de barras
-                const maxIndex = 10;
-                const chartTopY = 30;
-                const chartBottomY = 210;
-                const chartHeight = chartBottomY - chartTopY;
+                const baseImpactSim = impactoBase(magnitude);
 
-                function barY(val) {
-                    const clamped = Math.max(0, Math.min(maxIndex, val));
-                    return chartBottomY - (clamped / maxIndex) * chartHeight;
-                }
-
-                const y1985 = barY(INDEX_1985);
-                const y2017 = barY(INDEX_2017);
-                const ySim = barY(indexSim);
-
-                const h1985 = chartBottomY - y1985;
-                const h2017 = chartBottomY - y2017;
-                const hSim = chartBottomY - ySim;
+                const chartData = {
+                    magnitud: {
+                        y1985: mag1985,
+                        y2017: mag2017,
+                        ySim: clamp01to10(magnitude)
+                    },
+                    infraestructura: {
+                        y1985: 9.5,
+                        y2017: 8.0,
+                        ySim: clamp01to10(baseImpactSim)
+                    },
+                    mortal: {
+                        y1985: 9.0,
+                        y2017: 8.0,
+                        ySim: clamp01to10(baseImpactSim - 0.5)
+                    },
+                    iztapalapa: {
+                        y1985: 9.0,
+                        y2017: 8.5,
+                        ySim: clamp01to10(baseImpactSim + 0.5)
+                    }
+                };
 
                 simBox.innerHTML = `
                     <h3 class="sim-title">Recomendación Sísmica</h3>
                     <p class="sim-text">${recommendation}</p>
 
-                    <!-- VELOCÍMETRO -->
+                    <!-- Velocímetro -->
                     <div class="sim-gauge-container">
                         <h4 class="sim-subtitle">
                             Nivel de riesgo: <span class="sim-risk-level">${nivel.toUpperCase()}</span>
@@ -359,15 +434,15 @@
                                 <path d="M20 150 A130 130 0 0 1 280 150"
                                       stroke="#222" stroke-width="22" fill="none" stroke-linecap="round"/>
 
-                                <!-- Tramo verde -->
+                                <!-- Verde -->
                                 <path d="M20 150 A130 130 0 0 1 110 40"
                                       stroke="#2ecc71" stroke-width="16" fill="none" stroke-linecap="round"/>
 
-                                <!-- Tramo amarillo -->
+                                <!-- Amarillo -->
                                 <path d="M110 40 A130 130 0 0 1 170 40"
                                       stroke="#f1c40f" stroke-width="16" fill="none" stroke-linecap="round"/>
 
-                                <!-- Tramo rojo -->
+                                <!-- Rojo -->
                                 <path d="M170 40 A130 130 0 0 1 280 150"
                                       stroke="#e74c3c" stroke-width="16" fill="none" stroke-linecap="round"/>
 
@@ -379,7 +454,6 @@
                                       stroke-linecap="round"
                                       transform="rotate(${needleAngle},150,150)"/>
 
-                                <!-- Centro -->
                                 <circle cx="150" cy="150" r="9" fill="#333"/>
                             </svg>
 
@@ -389,56 +463,75 @@
                         </div>
                     </div>
 
-                    <!-- GRÁFICA COMPARATIVA -->
+                    <!-- Gráfica comparativa -->
                     <div class="sim-chart-container">
-                        <h4 class="sim-chart-title">Gráfica comparativa de sismos</h4>
-                        <p class="sim-chart-subtitle">
+                        <div class="sim-chart-title">Gráfica comparativa de sismos</div>
+                        <p class="sim-chart-helper">
                             Índice global de impacto (0 = impacto casi nulo, 10 = impacto extremo).
                         </p>
 
-                        <svg viewBox="0 0 360 240" class="sim-chart-svg">
+                        <div class="sim-chart-tabs">
+                            <button class="sim-chart-tab active" data-category="magnitud">Comparación de magnitud</button>
+                            <button class="sim-chart-tab" data-category="infraestructura">Daño a infraestructura</button>
+                            <button class="sim-chart-tab" data-category="mortal">Riesgo mortal</button>
+                            <button class="sim-chart-tab" data-category="iztapalapa">Daños en Iztapalapa</button>
+                        </div>
+
+                        <svg viewBox="0 0 650 260" class="sim-chart-svg">
                             <!-- Ejes -->
-                            <line x1="50" y1="${chartTopY}" x2="50" y2="${chartBottomY}" class="sim-chart-axis"/>
-                            <line x1="50" y1="${chartBottomY}" x2="330" y2="${chartBottomY}" class="sim-chart-axis"/>
+                            <line x1="80" y1="40" x2="80" y2="230" class="sim-chart-axis"/>
+                            <line x1="80" y1="230" x2="600" y2="230" class="sim-chart-axis"/>
 
-                            <!-- Ticks y etiquetas 0,2,4,...,10 -->
-                            ${[0,2,4,6,8,10].map(v => {
-                                const y = chartBottomY - (v / maxIndex) * chartHeight;
-                                return `
-                                    <line x1="46" y1="${y}" x2="50" y2="${y}" class="sim-chart-tick"/>
-                                    <text x="42" y="${y + 3}" class="sim-chart-tick-label" text-anchor="end">${v}</text>
-                                `;
-                            }).join("")}
+                            <!-- Ticks y etiquetas Y (0–10) -->
+                            <g>
+                                <line x1="75" y1="230" x2="80" y2="230" class="sim-chart-tick"/>
+                                <text x="70" y="233" text-anchor="end" class="sim-chart-label-y">0</text>
 
-                            <!-- Etiquetas en el eje X -->
-                            <text x="110" y="${chartBottomY + 15}" class="sim-chart-tick-label" text-anchor="middle">1985</text>
-                            <text x="190" y="${chartBottomY + 15}" class="sim-chart-tick-label" text-anchor="middle">2017</text>
-                            <text x="270" y="${chartBottomY + 15}" class="sim-chart-tick-label" text-anchor="middle">Simulación</text>
+                                <line x1="75" y1="208" x2="80" y2="208" class="sim-chart-tick"/>
+                                <text x="70" y="211" text-anchor="end" class="sim-chart-label-y">2</text>
 
-                            <!-- Barras -->
-                            <rect x="90" y="${y1985}" width="30" height="${h1985}"
-                                  fill="#e74c3c" class="sim-bar"/>
-                            <rect x="170" y="${y2017}" width="30" height="${h2017}"
-                                  fill="#3498db" class="sim-bar"/>
-                            <rect x="250" y="${ySim}" width="30" height="${hSim}"
-                                  fill="#2ecc71" class="sim-bar"/>
+                                <line x1="75" y1="186" x2="80" y2="186" class="sim-chart-tick"/>
+                                <text x="70" y="189" text-anchor="end" class="sim-chart-label-y">4</text>
+
+                                <line x1="75" y1="164" x2="80" y2="164" class="sim-chart-tick"/>
+                                <text x="70" y="167" text-anchor="end" class="sim-chart-label-y">6</text>
+
+                                <line x1="75" y1="142" x2="80" y2="142" class="sim-chart-tick"/>
+                                <text x="70" y="145" text-anchor="end" class="sim-chart-label-y">8</text>
+
+                                <line x1="75" y1="120" x2="80" y2="120" class="sim-chart-tick"/>
+                                <text x="70" y="123" text-anchor="end" class="sim-chart-label-y">10</text>
+                            </g>
+
+                            <!-- Etiquetas X -->
+                            <text x="170" y="245" text-anchor="middle" class="sim-chart-label-x">1985</text>
+                            <text x="325" y="245" text-anchor="middle" class="sim-chart-label-x">2017</text>
+                            <text x="480" y="245" text-anchor="middle" class="sim-chart-label-x">Simulación</text>
+
+                            <!-- Barras (se ajustan por JS) -->
+                            <rect id="bar-1985" x="140" y="230" width="60" height="0" class="sim-chart-bar sim-chart-bar-1985"></rect>
+                            <rect id="bar-2017" x="295" y="230" width="60" height="0" class="sim-chart-bar sim-chart-bar-2017"></rect>
+                            <rect id="bar-sim"  x="450" y="230" width="60" height="0" class="sim-chart-bar sim-chart-bar-sim"></rect>
                         </svg>
 
-                        <!-- Leyenda -->
                         <div class="sim-chart-legend">
                             <div class="sim-chart-legend-item">
-                                <span class="sim-chart-legend-color" style="background:#e74c3c;"></span>
+                                <span class="sim-chart-legend-color legend-1985"></span>
                                 <span>1985 · Sismo M8.1</span>
                             </div>
                             <div class="sim-chart-legend-item">
-                                <span class="sim-chart-legend-color" style="background:#3498db;"></span>
+                                <span class="sim-chart-legend-color legend-2017"></span>
                                 <span>2017 · Sismo M7.1</span>
                             </div>
                             <div class="sim-chart-legend-item">
-                                <span class="sim-chart-legend-color" style="background:#2ecc71;"></span>
-                                <span>Simulación · Magnitud ingresada</span>
+                                <span class="sim-chart-legend-color legend-sim"></span>
+                                <span>Simulación · Magnitud <span class="legend-sim-mag">${magnitude.toFixed(1)}</span></span>
                             </div>
                         </div>
+
+                        <p class="sim-chart-intervals">
+                            Escala 0–10: 0–3 = impacto bajo, 4–6 = impacto medio, 7–8 = impacto alto, 9–10 = impacto extremo.
+                        </p>
                     </div>
 
                     <button type="button" class="all-posts-btn sim-btn-restart">
@@ -446,12 +539,62 @@
                     </button>
                 `;
 
-                simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
+                // Botón de reinicio
+                const restartBtn = simBox.querySelector(".sim-btn-restart");
+                restartBtn.addEventListener("click", () => {
                     simBox.innerHTML = originalBoxHTML;
                     configurarFormulario();
                 });
 
+                // -------- Lógica de la gráfica comparativa --------
+                const chartTabs = simBox.querySelectorAll(".sim-chart-tab");
+                const bar1985 = simBox.querySelector("#bar-1985");
+                const bar2017 = simBox.querySelector("#bar-2017");
+                const barSim  = simBox.querySelector("#bar-sim");
+
+                const baseY = 230;
+                const topY = 120; // donde está el 10
+                const maxVal = 10;
+
+                function setBar(barElem, value, animate) {
+                    const v = clamp01to10(value);
+                    const height = (v / maxVal) * (baseY - topY);
+                    const y = baseY - height;
+
+                    if (!animate) {
+                        barElem.style.transition = "none";
+                    }
+                    barElem.setAttribute("y", y);
+                    barElem.setAttribute("height", height);
+                    if (!animate) {
+                        // fuerza reflow para reactivar transición
+                        void barElem.offsetHeight;
+                        barElem.style.transition = "";
+                    }
+                }
+
+                function updateChart(category, animate) {
+                    const d = chartData[category];
+                    setBar(bar1985, d.y1985, animate);
+                    setBar(bar2017, d.y2017, animate);
+                    setBar(barSim,  d.ySim,  animate);
+                }
+
+                chartTabs.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        chartTabs.forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        const cat = btn.getAttribute("data-category");
+                        updateChart(cat, true);
+                    });
+                });
+
+                // Estado inicial: magnitud, sin animación y luego animado suave
+                updateChart("magnitud", false);
+                setTimeout(() => updateChart("magnitud", true), 60);
+
             } catch (err) {
+                console.error(err);
                 simBox.innerHTML = `
                     <h3 class="sim-title">Ocurrió un problema</h3>
                     <p class="sim-text">No fue posible obtener la recomendación.</p>

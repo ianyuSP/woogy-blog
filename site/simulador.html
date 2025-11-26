@@ -112,7 +112,7 @@
                 <a class="prototipico-link" href="documento-prototipico.pdf" target="_blank">Proyecto Prototípico</a></p>
         </div>
     </footer>
-    <script>
+        <script>
     (function () {
         const simBox = document.getElementById("sim-box");
         const originalBoxHTML = simBox.innerHTML;
@@ -147,7 +147,6 @@
                     return;
                 }
 
-                // Estado de "cargando"
                 simBox.innerHTML = `
                     <h3 class="sim-title">Generando recomendación...</h3>
                     <div class="sim-loading">
@@ -200,16 +199,24 @@
                     const nivel = data.nivel || "desconocido";
                     const color = data.color || "verde";
                     const intervalo = data.intervalo || "";
-                    const riesgo = typeof data.riesgo === "number" ? data.riesgo : 0.0;
+                    const yPos = typeof data.y_pos === "number" ? data.y_pos : 0.0;  // 0–1
                     const mapaArchivo = data.mapa || "mapa_verde.png";
 
-                    // coordenadas para el "rayo" según el riesgo
-                    const startX = 20;
-                    const startY = 110;
-                    const maxX = 280;
-                    const minY = 40;
-                    const endX = startX + riesgo * (maxX - startX);
-                    const endY = startY - riesgo * (startY - minY);
+                    // Escala de la flecha (1–10) en el eje Y
+                    // eje Y: bottomY = magnitud 1, topY = magnitud 10
+                    const axisX = 40;
+                    const bottomY = 130;
+                    const topY = 20;
+
+                    const endX = 280;
+                    const startX = axisX;
+                    const startY = bottomY;
+
+                    // yPos 0 -> mag 1 (abajo), yPos 1 -> mag 10 (arriba)
+                    const arrowY = bottomY - yPos * (bottomY - topY);
+                    const midX = (startX + endX) / 2;
+                    const midY = topY;
+
                     const strokeColor = getColorHex(color);
 
                     simBox.innerHTML = `
@@ -224,22 +231,39 @@
                                     Nivel de riesgo: <span class="sim-risk-level">${nivel.toUpperCase()}</span>
                                     <span class="sim-risk-interval">(${intervalo})</span>
                                 </h4>
-                                <svg viewBox="0 0 320 140" class="sim-risk-graph">
-                                    <line x1="20" y1="10" x2="20" y2="120" class="sim-axis"/>
-                                    <line x1="20" y1="120" x2="300" y2="120" class="sim-axis"/>
 
+                                <svg viewBox="0 0 320 180" class="sim-risk-graph">
+                                    <!-- Ejes -->
+                                    <line x1="${axisX}" y1="${topY}" x2="${axisX}" y2="${bottomY}" class="sim-axis"/>
+                                    <line x1="${axisX}" y1="${bottomY}" x2="${endX}" y2="${bottomY}" class="sim-axis"/>
+
+                                    <!-- Marcas y etiquetas de magnitud 1–10 -->
+                                    ${[1,2,3,4,5,6,7,8,9,10].map(m => {
+                                        const t = (m - 1) / 9;
+                                        const y = bottomY - t * (bottomY - topY);
+                                        return `
+                                            <line x1="${axisX - 5}" y1="${y}" x2="${axisX}" y2="${y}" class="sim-tick"/>
+                                            <text x="${axisX - 8}" y="${y + 4}" class="sim-tick-label" text-anchor="end" font-size="8">${m}</text>
+                                        `;
+                                    }).join("")}
+
+                                    <!-- Definición de la punta de flecha -->
                                     <defs>
-                                        <marker id="arrow-head" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-                                            <path d="M0,0 L6,3 L0,6 z" fill="${strokeColor}" />
+                                        <marker id="arrow-head" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+                                            <path d="M0,0 L8,4 L0,8 z" fill="${strokeColor}" />
                                         </marker>
                                     </defs>
 
-                                    <path d="M ${startX} ${startY} Q ${(startX + endX) / 2} ${minY} ${endX} ${endY}"
-                                          stroke="${strokeColor}"
-                                          stroke-width="4"
-                                          fill="none"
-                                          marker-end="url(#arrow-head)"
-                                          class="sim-risk-line" />
+                                    <!-- Flecha tipo “rayo”/curva -->
+                                    <path d="
+                                        M ${startX} ${startY}
+                                        Q ${midX} ${midY} ${endX} ${arrowY}
+                                        "
+                                        stroke="${strokeColor}"
+                                        stroke-width="4"
+                                        fill="none"
+                                        marker-end="url(#arrow-head)"
+                                        class="sim-risk-line" />
                                 </svg>
                             </div>
 
@@ -287,6 +311,7 @@
         configurarFormulario();
     })();
     </script>
+
 
 </body>
 </html>

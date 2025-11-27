@@ -9,6 +9,96 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Estilos extra para velocímetro y gráfica -->
+    <style>
+        .sim-gauge-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto 25px auto;
+            text-align: center;
+        }
+        .gauge-wrapper {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .gauge-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .gauge-value {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .sim-chart-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 10px auto 20px auto;
+            text-align: center;
+        }
+        .sim-chart-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 15px auto 10px auto;
+        }
+        .sim-chart-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .sim-chart-tab {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #c07a55;
+            background: #ffffff;
+            color: #7a4b30;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .sim-chart-tab.active {
+            background: #c07a55;
+            color: #ffffff;
+        }
+        .sim-chart-legend {
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+        .sim-chart-legend span {
+            margin: 0 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .sim-chart-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .sim-chart-scale {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            color: #7a6a5c;
+        }
+
+        @media (max-width: 768px) {
+            .gauge-wrapper {
+                max-width: 95%;
+            }
+            .gauge-value {
+                font-size: 16px;
+            }
+            .sim-chart-container {
+                max-width: 95%;
+            }
+        }
+    </style>
 </head>
 
 <body>

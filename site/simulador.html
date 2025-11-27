@@ -9,9 +9,7 @@
     <link rel="stylesheet" href="../static/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Estilos extra para velocímetro y gráfica -->
     <style>
-        /* Contenedor del velocímetro */
         .sim-gauge-container {
             width: 100%;
             max-width: 650px;
@@ -37,67 +35,49 @@
             font-weight: bold;
         }
 
-        /* Contenedor de la gráfica comparativa */
-        .sim-chart-container {
+        .chart-container {
             width: 100%;
-            max-width: 650px;
-            margin: 10px auto 20px auto;
+            max-width: 750px;
+            margin: 30px auto 10px auto;
+        }
+
+        .chart-title {
+            font-size: 22px;
+            font-weight: bold;
             text-align: center;
+            margin-bottom: 5px;
         }
 
-        .sim-chart-svg {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 15px auto 10px auto;
+        .chart-subtitle {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #444;
         }
 
-        .sim-chart-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 8px;
+        canvas {
+            width: 100% !important;
+            height: auto !important;
         }
 
-        .sim-chart-tab {
+        .chart-btns {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-btns button {
+            border: 1px solid #b67a5c;
+            background: white;
             padding: 6px 14px;
-            border-radius: 20px;
-            border: 1px solid #c07a55;
-            background: #ffffff;
-            color: #7a4b30;
+            border-radius: 15px;
+            margin: 4px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 14px;
         }
 
-        .sim-chart-tab.active {
-            background: #c07a55;
-            color: #ffffff;
-        }
-
-        .sim-chart-legend {
-            font-size: 0.85rem;
-            margin-top: 6px;
-        }
-
-        .sim-chart-legend span {
-            margin: 0 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .sim-chart-legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .sim-chart-scale {
-            font-size: 0.8rem;
-            margin-top: 4px;
-            color: #7a6a5c;
+        .chart-btns button.active {
+            background: #b67a5c;
+            color: white;
         }
 
         @media (max-width: 768px) {
@@ -107,452 +87,302 @@
             .gauge-value {
                 font-size: 16px;
             }
-            .sim-chart-container {
-                max-width: 95%;
-            }
         }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <header class="header">
-        <nav class="navbar">
-            <span class="logo">WOOGY</span>
-            <div class="menu">
-                <a href="index.html">Mi Blog</a>
-                <a href="hechos_historicos.html">Hechos Históricos</a>
-                <a href="educ_sis.html">Educación Sísmica</a>
-                <a href="material_de_apoyo.html">Material de Apoyo</a>
-            </div>
-            <div class="social-icons">
-                <i class="fa-brands fa-facebook"></i>
-                <i class="fa-brands fa-github"></i>
-                <i class="fa-solid fa-user"></i>
-            </div>
-        </nav>
-    </header>
-
-    <main class="content-wrapper">
-        <section class="page-title-section">
-            <div class="title-container">
-                <h2>Simulador de Recomendaciones Sísmicas</h2>
-                <p>
-                    Este simulador está enfocado en Iztapalapa, una zona con suelos blandos donde los sismos
-                    se amplifican. Las recomendaciones se basan en protocolos oficiales adaptados a este contexto.
-                </p>
-            </div>
-        </section>
-
-        <section class="article-section">
-            <div class="sim-box" id="sim-box">
-
-                <h3 class="sim-title">Datos del Sismo</h3>
-
-                <form id="sim-form" class="sim-form">
-
-                    <div class="sim-field">
-                        <label class="sim-label">Magnitud del sismo:</label>
-                        <input
-                            type="number"
-                            id="magnitude"
-                            class="sim-input"
-                            min="1"
-                            max="10"
-                            step="0.1"
-                            placeholder="Ej. 7.5">
-                    </div>
-
-                    <div class="sim-field">
-                        <label class="sim-label">Planta en la que te encuentras:</label>
-                        <select id="floor" class="sim-select">
-                            <option value="baja">Planta baja</option>
-                            <option value="media">Piso medio</option>
-                            <option value="alta">Piso alto</option>
-                        </select>
-                    </div>
-
-                    <div class="sim-field">
-                        <label class="sim-label">Tipo de movimiento:</label>
-                        <select id="movement" class="sim-select">
-                            <option value="oscilatorio">Oscilatorio</option>
-                            <option value="trepidatorio">Trepidatorio</option>
-                            <option value="mixto">Mixto</option>
-                        </select>
-                    </div>
-
-                    <button type="button" class="all-posts-btn sim-btn" id="sim-submit">
-                        Generar recomendación
-                    </button>
-
-                </form>
-
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h3>Acerca del Blog</h3>
-                <p>Un espacio dedicado a la seguridad, la prevención sísmica y la resiliencia comunitaria.</p>
-            </div>
-            <div class="footer-section links">
-                <h3>Enlaces Rápidos</h3>
-                <ul>
-                    <li><a href="index.html">Mi Blog</a></li>
-                    <li><a href="documento-prototipico.pdf" target="_blank">Documento Prototípico</a></li>
-                    <li><a href="politica_privacidad.html">Política de Privacidad</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact">
-                <h3>Atención Ciudadana</h3>
-                <p>Teléfono: 55 1519 1864</p>
-                <p>Emergencias: 55 5683 2222</p>
-                <p>Correo: atencion.ciudadana.sgirpc@cdmx.gob.mx</p>
-            </div>
+<header class="header">
+    <nav class="navbar">
+        <span class="logo">WOOGY</span>
+        <div class="menu">
+            <a href="index.html">Mi Blog</a>
+            <a href="hechos_historicos.html">Hechos Históricos</a>
+            <a href="educ_sis.html">Educación Sísmica</a>
+            <a href="material_de_apoyo.html">Material de Apoyo</a>
         </div>
-
-        <div class="footer-bottom">
-            <p>*Derechos Reservados © 2025 UNRC* | Parte del
-                <a class="prototipico-link" href="documento-prototipico.pdf" target="_blank">Proyecto Prototípico</a></p>
+        <div class="social-icons">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-github"></i>
+            <i class="fa-solid fa-user"></i>
         </div>
-    </footer>
+    </nav>
+</header>
 
-    <script>
-    (function () {
-        const simBox = document.getElementById("sim-box");
-        const originalBoxHTML = simBox.innerHTML;
+<main class="content-wrapper">
+    <section class="page-title-section">
+        <div class="title-container">
+            <h2>Simulador de Recomendaciones Sísmicas</h2>
+            <p>
+                Este simulador está enfocado en Iztapalapa, una zona con suelos blandos donde los sismos
+                se amplifican. Las recomendaciones se basan en protocolos oficiales adaptados a este contexto.
+            </p>
+        </div>
+    </section>
 
-        const API_URL = "https://woogy-backend-pp.onrender.com/simular";
+    <section class="article-section">
+        <div class="sim-box" id="sim-box">
 
-        function getColorHex(colorName) {
-            switch (colorName) {
-                case "verde":    return "#2ecc71";
-                case "amarillo": return "#f1c40f";
-                case "naranja":  return "#e67e22";
-                case "rojo":     return "#e74c3c";
-                default:         return "#2ecc71";
-            }
+            <h3 class="sim-title">Datos del Sismo</h3>
+
+            <form id="sim-form" class="sim-form">
+
+                <div class="sim-field">
+                    <label class="sim-label">Magnitud del sismo:</label>
+                    <input
+                        type="number"
+                        id="magnitude"
+                        class="sim-input"
+                        min="1"
+                        max="10"
+                        step="0.1"
+                        placeholder="Ej. 7.5">
+                </div>
+
+                <div class="sim-field">
+                    <label class="sim-label">Planta en la que te encuentras:</label>
+                    <select id="floor" class="sim-select">
+                        <option value="baja">Planta baja</option>
+                        <option value="media">Piso medio</option>
+                        <option value="alta">Piso alto</option>
+                    </select>
+                </div>
+
+                <div class="sim-field">
+                    <label class="sim-label">Tipo de movimiento:</label>
+                    <select id="movement" class="sim-select">
+                        <option value="oscilatorio">Oscilatorio</option>
+                        <option value="trepidatorio">Trepidatorio</option>
+                        <option value="mixto">Mixto</option>
+                    </select>
+                </div>
+
+                <button type="button" class="all-posts-btn sim-btn" id="sim-submit">
+                    Generar recomendación
+                </button>
+
+            </form>
+
+        </div>
+    </section>
+
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>Acerca del Blog</h3>
+            <p>Un espacio dedicado a la seguridad, la prevención sísmica y la resiliencia comunitaria.</p>
+        </div>
+        <div class="footer-section links">
+            <h3>Enlaces Rápidos</h3>
+            <ul>
+                <li><a href="index.html">Mi Blog</a></li>
+                <li><a href="documento-prototipico.pdf" target="_blank">Documento Prototípico</a></li>
+                <li><a href="politica_privacidad.html">Política de Privacidad</a></li>
+            </ul>
+        </div>
+        <div class="footer-section contact">
+            <h3>Atención Ciudadana</h3>
+            <p>Teléfono: 55 1519 1864</p>
+            <p>Emergencias: 55 5683 2222</p>
+            <p>Correo: atencion.ciudadana.sgirpc@cdmx.gob.mx</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>*Derechos Reservados © 2025 UNRC* | Parte del
+            <a class="prototipico-link" href="documento-prototipico.pdf" target="_blank">Proyecto Prototípico</a></p>
+    </div>
+</footer>
+
+<script>
+    
+(function () {
+    const simBox = document.getElementById("sim-box");
+    const originalBoxHTML = simBox.innerHTML;
+
+    const API_URL = "https://woogy-backend-pp.onrender.com/simular";
+
+    function getColorHex(colorName) {
+        switch (colorName) {
+            case "verde":    return "#2ecc71";
+            case "amarillo": return "#e67e22";
+            case "rojo":     return "#e74c3c";
+            default:         return "#2ecc71";
         }
+    }
 
-        // Mapea magnitud a ángulo de la aguja, por rangos de riesgo
-        function magnitudeToAngle(m) {
-            // muy bajo: 1.0–2.9  -> -90 a -40
-            if (m < 3.0) {
-                const t = (m - 1.0) / (2.9 - 1.0);
-                return -90 + t * (50); // -90 a -40
-            }
-            // bajo: 3.0–3.9 -> -40 a -20
-            if (m < 4.0) {
-                const t = (m - 3.0) / (3.9 - 3.0);
-                return -40 + t * 20; // -40 a -20
-            }
-            // medio: 4.0–5.9 -> -20 a 30
-            if (m < 6.0) {
-                const t = (m - 4.0) / (5.9 - 4.0);
-                return -20 + t * 50; // -20 a 30
-            }
-            // alto: 6.0–6.9 -> 30 a 60
-            if (m < 7.0) {
-                const t = (m - 6.0) / (6.9 - 6.0);
-                return 30 + t * 30; // 30 a 60
-            }
-            // crítico: 7.0–10.0 -> 60 a 90
-            const t = (m - 7.0) / (10.0 - 7.0);
-            return 60 + t * 30; // 60 a 90
-        }
+    function calcularImpacto(mag) {
+        if (mag < 4.0) return 1.5;
+        if (mag < 6.0) return 5.0;
+        if (mag < 7.5) return 7.5;
+        if (mag < 8.5) return 9.0;
+        return 10.0;
+    }
 
-        function configurarFormulario() {
-            const btn = document.getElementById("sim-submit");
-            if (!btn) return;
+    let chartInstance = null;
 
-            btn.addEventListener("click", async () => {
-                const magInput = document.getElementById("magnitude");
-                const floorSelect = document.getElementById("floor");
-                const movementSelect = document.getElementById("movement");
+    function drawChart(category, magnitude) {
+        const chartArea = document.getElementById("sim-chart");
+        const labels = ["1985", "2017", "Simulación"];
+        const values = {
+            magnitud: [10, 8.5, magnitude],
+            infraestructura: [10, 8.0, calcularImpacto(magnitude)],
+            mortal: [10, 8.5, calcularImpacto(magnitude)],
+            iztapalapa: [10, 8.0, calcularImpacto(magnitude)]
+        };
 
-                const magnitude = parseFloat(magInput.value);
-                const floor = floorSelect.value;
-                const movement = movementSelect.value;
+        const dataset = values[category];
 
-                if (isNaN(magnitude)) {
-                    alert("Ingresa una magnitud válida entre 1.0 y 10.0.");
-                    return;
-                }
+        if (chartInstance) chartInstance.destroy();
 
-                simBox.innerHTML = `
-                    <h3 class="sim-title">Generando recomendación...</h3>
-                    <div class="sim-loading">
-                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                    </div>
-                    <p class="sim-helper-text">
-                        Analizando la magnitud, la planta y el tipo de movimiento según Iztapalapa.
-                    </p>
-                `;
-
-                try {
-                    await new Promise(resolve => setTimeout(resolve, 500));
-
-                    const response = await fetch(API_URL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            magnitude: magnitude,
-                            floor: floor,
-                            movement: movement
-                        })
-                    });
-
-                    const data = await response.json().catch(() => ({}));
-
-                    if (!response.ok) {
-                        const mensaje = data.error || "No fue posible obtener la recomendación.";
-                        simBox.innerHTML = `
-                            <h3 class="sim-title">Ocurrió un problema</h3>
-                            <p class="sim-text">${mensaje}</p>
-                            <button type="button" class="all-posts-btn sim-btn-restart">
-                                Volver al simulador
-                            </button>
-                        `;
-                        simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
-                            simBox.innerHTML = originalBoxHTML;
-                            configurarFormulario();
-                        });
-                        return;
+        chartInstance = new Chart(chartArea, {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [{
+                    data: dataset,
+                    backgroundColor: ["#e74c3c", "#3498db", "#2ecc71"]
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 10,
+                        ticks: { stepSize: 1 }
                     }
-
-                    const recommendation = data.recomendacion;
-                    const nivel = data.nivel;
-                    const intervalo = data.intervalo;
-                    const strokeColor = getColorHex(data.color);
-                    const needleAngle = magnitudeToAngle(magnitude);
-
-                    // Configuración base de impactos (0–10)
-                    // Valores aproximados según daños históricos en CDMX e Iztapalapa
-                    const metrics = {
-                        magnitud: {
-                            descripcion: "Comparación de magnitud (1 = muy baja, 10 = extremadamente alta).",
-                            v1985: 8.1,
-                            v2017: 7.1,
-                            vsim: Math.max(1, Math.min(10, magnitude))
-                        },
-                        infraestructura: {
-                            descripcion: "Daño estimado a infraestructura (0 = sin daño, 10 = daño extremo).",
-                            v1985: 9.5,
-                            v2017: 8.0,
-                            vsim: Math.max(0, Math.min(10, magnitude * 1.2 - 2))
-                        },
-                        mortal: {
-                            descripcion: "Riesgo mortal relativo (0 = casi nulo, 10 = muy alto).",
-                            v1985: 10.0,
-                            v2017: 8.5,
-                            vsim: Math.max(0, Math.min(10, magnitude * 1.1 - 1.5))
-                        },
-                        iztapalapa: {
-                            descripcion: "Impacto estimado en Iztapalapa (0 = muy bajo, 10 = muy alto).",
-                            v1985: 8.5,
-                            v2017: 7.5,
-                            vsim: Math.max(0, Math.min(10, magnitude * 1.15 - 2))
-                        }
-                    };
-
-                    simBox.innerHTML = `
-                        <h3 class="sim-title">Recomendación Sísmica</h3>
-                        <p class="sim-text">${recommendation}</p>
-
-                        <!-- VELOCÍMETRO -->
-                        <div class="sim-gauge-container">
-                            <h4 class="sim-subtitle">
-                                Nivel de riesgo: <span class="sim-risk-level">${nivel.toUpperCase()}</span>
-                                <span class="sim-risk-interval">(${intervalo})</span>
-                            </h4>
-
-                            <div class="gauge-wrapper">
-                                <svg viewBox="0 0 300 170" class="gauge-svg">
-                                    <!-- Arco gris base -->
-                                    <path d="M20 150 A130 130 0 0 1 280 150"
-                                          stroke="#222" stroke-width="22" fill="none" stroke-linecap="round"/>
-
-                                    <!-- Verde: 1–2.9 (muy bajo) y 3–3.9 (bajo) -->
-                                    <path d="M20 150 A130 130 0 0 1 140 40"
-                                          stroke="#2ecc71" stroke-width="16" fill="none" stroke-linecap="round"/>
-
-                                    <!-- Amarillo: 4–5.9 (medio) -->
-                                    <path d="M140 40 A130 130 0 0 1 200 40"
-                                          stroke="#f1c40f" stroke-width="16" fill="none" stroke-linecap="round"/>
-
-                                    <!-- Rojo: 6–10 (alto / crítico) -->
-                                    <path d="M200 40 A130 130 0 0 1 280 150"
-                                          stroke="#e74c3c" stroke-width="16" fill="none" stroke-linecap="round"/>
-
-                                    <!-- Aguja -->
-                                    <line id="gauge-needle"
-                                          x1="150" y1="150" x2="150" y2="45"
-                                          stroke="${strokeColor}"
-                                          stroke-width="6"
-                                          stroke-linecap="round"
-                                          transform="rotate(${needleAngle},150,150)"/>
-
-                                    <circle cx="150" cy="150" r="9" fill="#333"/>
-                                </svg>
-
-                                <div class="gauge-value">
-                                    Magnitud: ${magnitude.toFixed(1)}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- GRÁFICA COMPARATIVA -->
-                        <div class="sim-chart-container">
-                            <h4 class="sim-subtitle">Gráfica comparativa de sismos</h4>
-                            <p class="sim-helper-text" id="sim-chart-desc">
-                                Índice global de impacto (0 = impacto casi nulo, 10 = impacto extremo).
-                            </p>
-
-                            <div class="sim-chart-tabs">
-                                <button class="sim-chart-tab active" data-metric="magnitud">Comparación de magnitud</button>
-                                <button class="sim-chart-tab" data-metric="infraestructura">Daño a infraestructura</button>
-                                <button class="sim-chart-tab" data-metric="mortal">Riesgo mortal</button>
-                                <button class="sim-chart-tab" data-metric="iztapalapa">Daños en Iztapalapa</button>
-                            </div>
-
-                            <svg id="sim-chart" viewBox="0 0 360 260" class="sim-chart-svg"></svg>
-
-                            <div class="sim-chart-legend" id="sim-chart-legend">
-                                <span><span class="sim-chart-legend-dot" style="background:#e74c3c;"></span>1985 · Sismo M8.1</span>
-                                <span><span class="sim-chart-legend-dot" style="background:#3498db;"></span>2017 · Sismo M7.1</span>
-                                <span><span class="sim-chart-legend-dot" style="background:#27ae60;"></span>Simulación · Magnitud ${magnitude.toFixed(1)}</span>
-                            </div>
-                            <p class="sim-chart-scale">
-                                Escala 0–10: 0–3 = impacto bajo, 4–6 = impacto medio, 7–8 = impacto alto, 9–10 = impacto extremo.
-                            </p>
-                        </div>
-
-                        <button type="button" class="all-posts-btn sim-btn-restart">
-                            Nueva simulación
-                        </button>
-                    `;
-
-                    // FUNCIÓN PARA DIBUJAR LA GRÁFICA
-                    const chartSvg = document.getElementById("sim-chart");
-                    const chartDesc = document.getElementById("sim-chart-desc");
-                    const legendDiv = document.getElementById("sim-chart-legend");
-
-                    function renderChart(metricKey) {
-                        const m = metrics[metricKey];
-                        chartDesc.textContent = m.descripcion;
-
-                        const labels = ["1985", "2017", "Simulación"];
-                        const values = [m.v1985, m.v2017, m.vsim];
-                        const colors = ["#e74c3c", "#3498db", "#27ae60"];
-
-                        const maxVal = 10;
-                        const chartLeft = 50;
-                        const chartRight = 330;
-                        const chartTop = 20;
-                        const chartBottom = 220;
-                        const chartHeight = chartBottom - chartTop;
-
-                        // Ejes y líneas horizontales
-                        let ticksSvg = "";
-                        for (let v = 0; v <= 10; v += 2) {
-                            const y = chartBottom - (v / maxVal) * chartHeight;
-                            ticksSvg += `
-                                <line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}"
-                                      stroke="#eee" stroke-width="1" />
-                                <text x="${chartLeft - 8}" y="${y + 4}" font-size="9" text-anchor="end" fill="#555">${v}</text>
-                            `;
-                        }
-
-                        // Barras y etiquetas
-                        const barWidth = 50;
-                        const baseX = 90;
-                        const gap = 90;
-                        let barsSvg = "";
-                        let labelsSvg = "";
-
-                        values.forEach((val, idx) => {
-                            const x = baseX + idx * gap;
-                            const barHeight = (val / maxVal) * chartHeight;
-                            const y = chartBottom - barHeight;
-
-                            barsSvg += `
-                                <rect x="${x - barWidth/2}" y="${y}" width="${barWidth}" height="${barHeight}"
-                                      fill="${colors[idx]}" />
-                            `;
-                            labelsSvg += `
-                                <text x="${x}" y="${chartBottom + 15}" font-size="11" text-anchor="middle" fill="#555">
-                                    ${labels[idx]}
-                                </text>
-                                <text x="${x}" y="${y - 5}" font-size="10" text-anchor="middle" fill="#333">
-                                    ${val.toFixed(1)}
-                                </text>
-                            `;
-                        });
-
-                        chartSvg.innerHTML = `
-                            <line x1="${chartLeft}" y1="${chartTop}" x2="${chartLeft}" y2="${chartBottom}"
-                                  stroke="#bba89b" stroke-width="2" />
-                            <line x1="${chartLeft}" y1="${chartBottom}" x2="${chartRight}" y2="${chartBottom}"
-                                  stroke="#bba89b" stroke-width="2" />
-                            ${ticksSvg}
-                            ${barsSvg}
-                            ${labelsSvg}
-                        `;
-
-                        // Actualizar último elemento de la leyenda (Simulación)
-                        const simText =
-                            metricKey === "magnitud"
-                                ? `Simulación · Magnitud ${magnitude.toFixed(1)}`
-                                : `Simulación · índice ${m.vsim.toFixed(1)}`;
-                        legendDiv.innerHTML = `
-                            <span><span class="sim-chart-legend-dot" style="background:#e74c3c;"></span>1985 · Sismo M8.1</span>
-                            <span><span class="sim-chart-legend-dot" style="background:#3498db;"></span>2017 · Sismo M7.1</span>
-                            <span><span class="sim-chart-legend-dot" style="background:#27ae60;"></span>${simText}</span>
-                        `;
-                    }
-
-                    // Pestañas
-                    const tabs = simBox.querySelectorAll(".sim-chart-tab");
-                    tabs.forEach(tab => {
-                        tab.addEventListener("click", () => {
-                            tabs.forEach(t => t.classList.remove("active"));
-                            tab.classList.add("active");
-                            const metricKey = tab.getAttribute("data-metric");
-                            renderChart(metricKey);
-                        });
-                    });
-
-                    // Render inicial (comparación de magnitud)
-                    renderChart("magnitud");
-
-                    // Botón de nueva simulación
-                    simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
-                        simBox.innerHTML = originalBoxHTML;
-                        configurarFormulario();
-                    });
-
-                } catch (err) {
-                    console.error(err);
-                    simBox.innerHTML = `
-                        <h3 class="sim-title">Ocurrió un problema</h3>
-                        <p class="sim-text">No fue posible obtener la recomendación.</p>
-                        <button type="button" class="all-posts-btn sim-btn-restart">
-                            Volver al simulador
-                        </button>
-                    `;
-                    simBox.querySelector(".sim-btn-restart").addEventListener("click", () => {
-                        simBox.innerHTML = originalBoxHTML;
-                        configurarFormulario();
-                    });
+                },
+                plugins: {
+                    legend: { display: false }
                 }
+            }
+        });
+    }
+
+    function configurarFormulario() {
+        const btn = document.getElementById("sim-submit");
+        if (!btn) return;
+
+        btn.addEventListener("click", async () => {
+            const magnitude = parseFloat(document.getElementById("magnitude").value);
+            const floor = document.getElementById("floor").value;
+            const movement = document.getElementById("movement").value;
+
+            if (isNaN(magnitude)) {
+                alert("Ingresa una magnitud válida entre 1.0 y 10.0.");
+                return;
+            }
+
+            simBox.innerHTML = `
+                <h3 class="sim-title">Generando recomendación...</h3>
+                <div class="sim-loading">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                </div>
+            `;
+
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    magnitude,
+                    floor,
+                    movement
+                })
             });
-        }
 
-        configurarFormulario();
-    })();
-    </script>
+            const data = await response.json();
+
+            const needleAngle = -90 + ((magnitude - 1) / 9) * 180;
+
+            simBox.innerHTML = `
+                <h3 class="sim-title">Recomendación Sísmica</h3>
+                <p class="sim-text">${data.recomendacion}</p>
+
+                <div class="sim-gauge-container">
+                    <h4 class="sim-subtitle">
+                        Nivel de riesgo: <span class="sim-risk-level">${data.nivel.toUpperCase()}</span>
+                        <span class="sim-risk-interval">(${data.intervalo})</span>
+                    </h4>
+
+                    <div class="gauge-wrapper">
+                        <svg viewBox="0 0 300 170" class="gauge-svg">
+
+                            <!-- Fondo -->
+                            <path d="M20 150 A130 130 0 0 1 280 150"
+                                stroke="#222" stroke-width="20" fill="none" stroke-linecap="round"/>
+
+                            <!-- VERDE -->
+                            <path d="M20 150 A130 130 0 0 1 140 60"
+                                  stroke="#2ecc71" stroke-width="18" fill="none" stroke-linecap="round"/>
+
+                            <!-- NARANJA -->
+                            <path d="M140 60 A130 130 0 0 1 205 60"
+                                  stroke="#e67e22" stroke-width="18" fill="none" stroke-linecap="round"/>
+
+                            <!-- ROJO -->
+                            <path d="M205 60 A130 130 0 0 1 280 150"
+                                  stroke="#e74c3c" stroke-width="18" fill="none" stroke-linecap="round"/>
+
+                            <!-- Aguja -->
+                            <line x1="150" y1="150" x2="150" y2="45"
+                                  stroke="#444" stroke-width="6"
+                                  transform="rotate(${needleAngle},150,150)"/>
+
+                            <circle cx="150" cy="150" r="10" fill="#333"/>
+                        </svg>
+
+                        <div class="gauge-value">
+                            Magnitud: ${magnitude.toFixed(1)}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRÁFICA -->
+                <div class="chart-title">Gráfica comparativa de sismos</div>
+                <div class="chart-subtitle">Índice global de impacto (0 = impacto casi nulo, 10 = impacto extremo).</div>
+
+                <div class="chart-btns">
+                    <button class="chart-tab active" data-type="magnitud">Comparación de magnitud</button>
+                    <button class="chart-tab" data-type="infraestructura">Daño a infraestructura</button>
+                    <button class="chart-tab" data-type="mortal">Riesgo mortal</button>
+                    <button class="chart-tab" data-type="iztapalapa">Daños en Iztapalapa</button>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="sim-chart"></canvas>
+                </div>
+
+                <button type="button" class="all-posts-btn sim-btn-restart">
+                    Nueva simulación
+                </button>
+            `;
+
+            drawChart("magnitud", magnitude);
+
+            document.querySelectorAll(".chart-tab").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    document.querySelectorAll(".chart-tab").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    drawChart(btn.dataset.type, magnitude);
+                });
+            });
+
+            document.querySelector(".sim-btn-restart").addEventListener("click", () => {
+                simBox.innerHTML = originalBoxHTML;
+                configurarFormulario();
+            });
+
+        });
+    }
+
+    configurarFormulario();
+})();
+</script>
 
 </body>
 </html>
+

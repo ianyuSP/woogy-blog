@@ -238,30 +238,25 @@
 
         // Mapea magnitud a ángulo de la aguja, por rangos de riesgo
         function magnitudeToAngle(m) {
-            // muy bajo: 1.0–2.9  -> -90 a -40
-            if (m < 3.0) {
-                const t = (m - 1.0) / (2.9 - 1.0);
-                return -90 + t * (50); // -90 a -40
-            }
-            // bajo: 3.0–3.9 -> -40 a -20
-            if (m < 4.0) {
-                const t = (m - 3.0) / (3.9 - 3.0);
-                return -40 + t * 20; // -40 a -20
-            }
-            // medio: 4.0–5.9 -> -20 a 30
-            if (m < 6.0) {
-                const t = (m - 4.0) / (5.9 - 4.0);
-                return -20 + t * 50; // -20 a 30
-            }
-            // alto: 6.0–6.9 -> 30 a 60
-            if (m < 7.0) {
-                const t = (m - 6.0) / (6.9 - 6.0);
-                return 30 + t * 30; // 30 a 60
-            }
-            // crítico: 7.0–10.0 -> 60 a 90
-            const t = (m - 7.0) / (10.0 - 7.0);
-            return 60 + t * 30; // 60 a 90
-        }
+    // verde: 1.0–3.9 -> -90 a -30
+    if (m < 4.0) {
+        const t = (m - 1.0) / (3.9 - 1.0);
+        return -90 + t * 60;
+    }
+    // amarillo: 4.0–5.9 -> -30 a 20
+    if (m < 6.0) {
+        const t = (m - 4.0) / (5.9 - 4.0);
+        return -30 + t * 50;
+    }
+    // naranja: 6.0–6.9 -> 20 a 40
+    if (m < 7.0) {
+        const t = (m - 6.0) / (6.9 - 6.0);
+        return 20 + t * 20;
+    }
+    // rojo: 7.0–10.0 -> 40 a 90
+    const t = (m - 7.0) / (10.0 - 7.0);
+    return 40 + t * 50;
+}
 
         function configurarFormulario() {
             const btn = document.getElementById("sim-submit");

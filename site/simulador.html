@@ -238,21 +238,25 @@
 
         // Mapea magnitud a ángulo de la aguja, por rangos de riesgo
         function magnitudeToAngle(m) {
-    // verde: 1.0–3.9  --> -90 a -30
+    // verde: 1.0–3.9 -> -90 a -30
     if (m < 4.0) {
         const t = (m - 1.0) / (3.9 - 1.0);
         return -90 + t * 60;
     }
-    // amarillo: 4.0–5.9 --> -30 a 30
+    // amarillo: 4.0–5.9 -> -30 a 20
     if (m < 6.0) {
         const t = (m - 4.0) / (5.9 - 4.0);
-        return -30 + t * 60;
+        return -30 + t * 50;
     }
-    // rojo: 6.0–10.0  --> 30 a 90
-    const t = (m - 6.0) / (10.0 - 6.0);
-    return 30 + t * 60;
+    // naranja: 6.0–6.9 -> 20 a 40
+    if (m < 7.0) {
+        const t = (m - 6.0) / (6.9 - 6.0);
+        return 20 + t * 20;
+    }
+    // rojo: 7.0–10.0 -> 40 a 90
+    const t = (m - 7.0) / (10.0 - 7.0);
+    return 40 + t * 50;
 }
-
 
         function configurarFormulario() {
             const btn = document.getElementById("sim-submit");
@@ -361,34 +365,32 @@
 
                             <div class="gauge-wrapper">
                                 <svg viewBox="0 0 300 170" class="gauge-svg">
+                                    <!-- Arco gris base -->
+                                    <path d="M20 150 A130 130 0 0 1 280 150"
+                                          stroke="#222" stroke-width="22" fill="none" stroke-linecap="round"/>
 
-    <!-- Base -->
-    <path d="M20 150 A130 130 0 0 1 280 150"
-          stroke="#222" stroke-width="22" fill="none" stroke-linecap="round"/>
+                                    <!-- Verde: 1–2.9 (muy bajo) y 3–3.9 (bajo) -->
+                                    <path d="M20 150 A130 130 0 0 1 140 40"
+                                          stroke="#2ecc71" stroke-width="16" fill="none" stroke-linecap="round"/>
 
-    <!-- Verde (1.0–3.9) -->
-    <path d="M20 150 A130 130 0 0 1 140 40"
-          stroke="#2ecc71" stroke-width="18" fill="none" stroke-linecap="round"/>
+                                    <!-- Amarillo: 4–5.9 (medio) -->
+                                    <path d="M140 40 A130 130 0 0 1 200 40"
+                                          stroke="#f1c40f" stroke-width="16" fill="none" stroke-linecap="round"/>
 
-    <!-- Amarillo (4.0–5.9) -->
-    <path d="M140 40 A130 130 0 0 1 200 40"
-          stroke="#f1c40f" stroke-width="18" fill="none" stroke-linecap="round"/>
+                                    <!-- Rojo: 6–10 (alto / crítico) -->
+                                    <path d="M200 40 A130 130 0 0 1 280 150"
+                                          stroke="#e74c3c" stroke-width="16" fill="none" stroke-linecap="round"/>
 
-    <!-- Rojo (6.0–10.0) -->
-    <path d="M200 40 A130 130 0 0 1 280 150"
-          stroke="#e74c3c" stroke-width="18" fill="none" stroke-linecap="round"/>
+                                    <!-- Aguja -->
+                                    <line id="gauge-needle"
+                                          x1="150" y1="150" x2="150" y2="45"
+                                          stroke="${strokeColor}"
+                                          stroke-width="6"
+                                          stroke-linecap="round"
+                                          transform="rotate(${needleAngle},150,150)"/>
 
-    <!-- Needle -->
-    <line id="gauge-needle"
-          x1="150" y1="150" x2="150" y2="45"
-          stroke="${strokeColor}"
-          stroke-width="6"
-          stroke-linecap="round"
-          transform="rotate(${needleAngle},150,150)"/>
-
-    <circle cx="150" cy="150" r="9" fill="#333"/>
-</svg>
-
+                                    <circle cx="150" cy="150" r="9" fill="#333"/>
+                                </svg>
 
                                 <div class="gauge-value">
                                     Magnitud: ${magnitude.toFixed(1)}
@@ -399,6 +401,10 @@
                         <!-- GRÁFICA COMPARATIVA -->
                         <div class="sim-chart-container">
                             <h4 class="sim-subtitle">Gráfica comparativa de sismos</h4>
+                            <p class="sim-helper-text" id="sim-chart-desc">
+                                Índice global de impacto (0 = impacto casi nulo, 10 = impacto extremo).
+                            </p>
+
                             <div class="sim-chart-tabs">
                                 <button class="sim-chart-tab active" data-metric="magnitud">Comparación de magnitud</button>
                                 <button class="sim-chart-tab" data-metric="infraestructura">Daño a infraestructura</button>

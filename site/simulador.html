@@ -95,7 +95,6 @@
 </div>
     </nav>
 </header>
-
 <main class="content-wrapper">
     <section class="page-title-section">
         <div class="title-container">
@@ -157,7 +156,7 @@
             <h3>Enlaces Rápidos</h3>
             <ul>
                 <li><a href="index.html">Mi Blog</a></li>
-                <li><a href="documento-prototipico.pdf" target="_blank">Documento Prototípico</a></li>
+                <li><a href="/static/img/Doc_Proyecto_PP.pdf" target="_blank">Documento Prototípico</a></li>
                 <li><a href="politica_privacidad.html">Política de Privacidad</a></li>
             </ul>
         </div>
@@ -170,10 +169,11 @@
     </div>
 
     <div class="footer-bottom">
-        <p>*Derechos Reservados © 2025 UNRC* | Parte del
-            <a class="prototipico-link" href="documento-prototipico.pdf" target="_blank">Proyecto Prototípico</a></p>
-    </div>
+            <p>*Derechos Reservados © 2025 UNRC* | Este contenido es parte de nuestro <a href="/static/img/Doc_Proyecto_PP.pdf" target="_blank" class="prototipico-link">Proyecto Prototípico</a></p>
+        </div>
 </footer>
+
+                /* ===== Vincular app.py con el HTML ===== */
 
 <script>
 (function () {
@@ -246,8 +246,6 @@
 
                 const recommendation = data.recomendacion;
                 const nivel = data.nivel;
-
-                /* ===== CONTENIDO SIN VELOCÍMETRO ===== */
                 simBox.innerHTML = `
                     <h3 class="sim-title">Recomendación Sísmica</h3>
                     <p class="sim-text">${recommendation}</p>

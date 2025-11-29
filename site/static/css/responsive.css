@@ -1,50 +1,141 @@
-/* --- 7. MEDIA QUERIES (Para Responsivo) --- */
-@media (max-width: 900px) {
-    /* En pantallas medianas, cambia el diseño principal a una columna */
-    .main-content {
-        grid-template-columns: 1fr; /* Una sola columna */
-    }
+/* =========================================
+   RESPONSIVE COMPLETO PARA TU BLOG WOOGY
+   (Optimizado para index.html real)
+========================================= */
 
-    .sidebar {
-        /* Para que el sidebar ocupe todo el ancho */
-        padding: 20px;
+/* ========== 1) DESKTOP GRANDE 1400px+ ========== */
+@media (min-width: 1400px) {
+    body { font-size: 18px; }
+    .main-content { grid-template-columns: 2fr 1fr; }
+}
+
+/* ========== 2) LAPTOP 1200px ========== */
+@media (max-width: 1200px) {
+    .hero-section {
+        padding: 0 2%;
+    }
+    .main-content {
+        gap: 25px;
+        padding: 0 3%;
     }
 }
 
-@media (max-width: 600px) {
-    /* En pantallas pequeñas, apila las imágenes superiores y el formulario */
-    .hero-section {
+/* ========== 3) TABLET HORIZONTAL 992px ========== */
+@media (max-width: 992px) {
+
+    /* Header */
+    .navbar {
         flex-direction: column;
+        gap: 10px;
     }
 
-    .hero-image-left, .hero-image-right, .hero-center {
-        flex: none;
+    .menu a {
+        margin: 0 5px;
+    }
+
+    /* Hero pasa a 1 sola columna */
+    .hero-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero-image-left,
+    .hero-image-right {
         width: 100%;
     }
 
     .hero-main-img {
-        padding-top: 70%; /* Ajuste para el móvil */
+        padding-top: 70%;
     }
 
-    .hero-title-overlay h1 {
-        font-size: 2em;
+    /* Grid principal: sidebar abajo */
+    .main-content {
+        grid-template-columns: 1fr;
     }
 
+    .sidebar {
+        margin-top: 30px;
+    }
+}
+
+/* ========== 4) TABLET 768px ========== */
+@media (max-width: 768px) {
+
+    header {
+        padding: 12px;
+    }
+
+    /* Posts se apilan */
     .post {
         flex-direction: column;
-        align-items: flex-start;
+        gap: 15px;
     }
 
     .post-image-small {
         width: 100%;
     }
 
-    .form-group {
-        flex-direction: column;
-        gap: 0;
+    .post-info h3 {
+        font-size: 1.1em;
     }
 
-    .form-input {
-        margin-bottom: 10px;
+    /* Contacto */
+    .form-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Footer columnas */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+}
+
+/* ========== 5) MÓVIL 600px ========== */
+@media (max-width: 600px) {
+
+    .hero-title-overlay h1 {
+        font-size: 1.9rem;
+        padding: 4px 10px;
+    }
+
+    .menu a {
+        font-size: 0.85em;
+    }
+
+    .all-posts-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .contact-section h2 {
+        font-size: 1.4rem;
+    }
+}
+
+/* ========== 6) MÓVIL PEQUEÑO 480px ========== */
+@media (max-width: 480px) {
+
+    body { font-size: 14px; }
+
+    h1, h2, h3 {
+        font-size: 90%;
+    }
+
+    .hero-main-img {
+        padding-top: 90%;
+    }
+
+    .menu a {
+        display: inline-block;
+        margin: 4px 0;
+        font-size: 0.8em;
+    }
+
+    .submit-btn,
+    .all-posts-btn {
+        width: 100%;
     }
 }

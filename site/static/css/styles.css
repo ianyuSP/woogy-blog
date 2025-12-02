@@ -1,6 +1,6 @@
 /* --- 1. CONFIGURACIÓN BÁSICA Y FUENTES --- */
 :root{
---primary-color: #A36551; /* Color principal (terracota/rojizo) */
+--primary-color: #A36551; /* Color principal */
     --secondary-color: #EFEBE9; /* Fondo claro/beige */
     --text-color: #333;
     --light-text: #666;
@@ -80,7 +80,7 @@ font-size: 40px;
 font-size: 40px;
 }
 
-/* --- 3. SECCIÓN SUPERIOR (HERO) --- */
+/* --- 3. SECCIÓN SUPERIOR--- */
 .hero-section{
 display: flex;
     max-width: 1200px;
@@ -91,7 +91,7 @@ display: flex;
 
 .hero-image-left, .hero-image-right{
 flex: 1;
-    overflow: hidden; /* Asegura que la imagen no sobresalga */
+    overflow: hidden; 
 }
 
 .hero-center{
@@ -102,26 +102,24 @@ flex: 2;
 /* Contenedores para Imágenes */
 .image-placeholder{
 width: 100%;
-    /* Usa un truco para mantener la proporción de aspecto con un relleno */
-    padding-top: 100%; /* Ejemplo: 1:1, ajusta según la proporción de tus imágenes */
-    background-color: #d1c4b7; /* Color de fondo para ver el espacio */
+    padding-top: 100%; 
+    background-color: #d1c4b7; 
     position: relative;
     overflow: hidden;
 }
 
 .hero-main-img{
-padding-top: 60%; /* Proporción para la imagen central */
+padding-top: 60%; 
 }
 
-/* IMPORTANTE: ESTO HACE QUE TUS IMÁGENES LOCALES SE AJUSTEN */
 .image-placeholder img{
 position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Asegura que la imagen cubra el contenedor sin distorsionarse */
-    display: block; /* Asegura que la imagen sea un bloque */
+    object-fit: cover; 
+    display: block; 
 }
 
 .hero-title-overlay{
@@ -130,13 +128,13 @@ position: absolute;
     left: 0;
     right: 0;
     text-align: center;
-    color: white; /* Color de texto del título */
+    color: white; 
     z-index: 10;
 }
 
 .hero-title-overlay h1{
 font-size: 2.5em;
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para el texto */
+    background-color: rgba(0, 0, 0, 0.4); 
     display: inline-block;
     padding: 5px 15px;
 }
@@ -144,7 +142,6 @@ font-size: 2.5em;
 /* --- 4. CONTENIDO PRINCIPAL Y BARRA LATERAL --- */
 .main-content{
 display: grid;
-    /* Define 3 columnas: 2 para el blog, 1 para el sidebar (proporción 2:1) */
     grid-template-columns: 2fr 1fr; 
     gap: 40px;
     max-width: 1200px;
@@ -170,8 +167,8 @@ border-bottom: none;
 }
 
 .post-image-small{
-flex-shrink: 0; /* Evita que la imagen se reduzca más de lo necesario */
-    width: 30%; /* Ancho fijo para la imagen pequeña */
+flex-shrink: 0; 
+    width: 30%; 
 }
 
 .image-placeholder-small{
@@ -533,11 +530,11 @@ flex-shrink: 0;
     color: var(--primary-color);
 }
 
-/* ... (resto de los estilos de tarjeta) ... */
+/* ... resto de los estilos de tarjeta ... */
 
 /* --- 10. ESTILOS ESPECÍFICOS PARA ARTÍCULOS INDIVIDUALES --- */
 .article-section{
-max-width: 900px; /* Ancho máximo para centrar el contenido */
+max-width: 900px; 
     margin: 40px auto;
     padding: 0 5%;
 }
@@ -565,7 +562,7 @@ margin-top: 25px;
 .article-hero-image img{
 width: 100%;
     height: auto;
-    max-height: 400px; /* Limita la altura de la imagen principal */
+    max-height: 400px; 
     object-fit: cover;
 }
 
@@ -584,7 +581,7 @@ font-size: 1.8em;
 
 .article-body p{
 margin-bottom: 1.5em;
-    text-align: justify; /* Hace que el texto se vea más ordenado */
+    text-align: justify; 
 }
 
 .lead-paragraph{
@@ -607,7 +604,6 @@ background-color: white;
     color: var(--light-text);
 }
 
-/* Nuevo estilo limpio para la página de Hechos Históricos */
 
 .clean-history-section{
 max-width: 800px;
@@ -644,7 +640,6 @@ color: #623f2c;
 opacity: 0.7;
 }
 
-/* Ocultamos estilos anteriores sin borrar nada */
 .support-grid,
 .support-card,
 .card-icon-container{
@@ -652,7 +647,7 @@ all: unset;
     display: block;
 }
 
-/* --- TITULOS GENERALES DE PÁGINA (ESTILO UNIFICADO) --- */
+/* --- TITULOS GENERALES DE PÁGINA --- */
 .page-title-section{
 text-align: center;
     padding: 50px 0 20px 0;
@@ -805,7 +800,7 @@ background: #8a5342;
     margin-bottom: 20px;
 }
 
-/** campos **/
+
 .sim-field {
     display: flex;
     flex-direction: column;
@@ -817,7 +812,7 @@ background: #8a5342;
     margin-bottom: 6px;
 }
 
-/** inputs **/
+
 .sim-input,
 .sim-select {
     padding: 10px;
@@ -827,7 +822,7 @@ background: #8a5342;
     font-family: var(--font-sans);
 }
 
-/** resultado **/
+
 .sim-result {
     background: white;
     border: 1px solid #ddd;
@@ -896,7 +891,7 @@ background: #8a5342;
     text-align: center;
     color: var(--light-text);
 }
-/** evitar que el cuadro del simulador se reduzca demasiado **/
+
 .sim-box {
     min-height: 400px;
 }
@@ -906,7 +901,7 @@ background: #8a5342;
 }
 
 .sim-btn-restart {
-    margin-top: auto; /* Mantiene el botón siempre abajo */
+    margin-top: auto;
 }
 /* Contenedor visual de riesgo del simulador */
 .sim-risk-container {
@@ -1042,6 +1037,46 @@ background: #8a5342;
         font-size: 9px !important;
     }
 
+}
+
+.references {
+    margin-top: 32px;
+    padding-left: 20px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #2b2b2b;
+    max-width: 900px;
+}
+
+.references li {
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.references a {
+    color: #0a3a7a;        
+    text-decoration: none;    
+    display: inline-block;
+    transition: 0.25s ease;
+}
+
+.references a:hover {
+    text-decoration: underline;
+    color: #062a59;
+}
+
+.references em {
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .references {
+        font-size: 0.88rem;
+        padding-left: 15px;
+    }
+    .references li {
+        margin-bottom: 14px;
+    }
 }
 
 
